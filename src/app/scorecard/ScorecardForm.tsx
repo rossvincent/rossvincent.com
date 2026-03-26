@@ -152,7 +152,116 @@ function ScoreGauge({ score }: { score: number }) {
   );
 }
 
-function Results({ answers }: { answers: Answers }) {
+function EmailCapture({
+  onSubmit,
+  submitting,
+}: {
+  onSubmit: (details: {
+    name: string;
+    email: string;
+    businessName: string;
+  }) => void;
+  submitting: boolean;
+}) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [businessName, setBusinessName] = useState("");
+
+  const canSubmit = name.trim() && email.trim() && email.includes("@");
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-xl sm:text-2xl font-semibold tracking-tight leading-snug">
+          Almost there – where should we send your results?
+        </h2>
+        <p className="mt-2 text-muted text-sm leading-relaxed">
+          Your personalised AI Readiness Score and action plan will appear on the
+          next screen. We&apos;ll also email you a copy.
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium mb-1.5"
+          >
+            Your name
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full border border-border rounded-md px-4 py-3 text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-foreground/20"
+            placeholder="Jane Smith"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium mb-1.5"
+          >
+            Email address
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border border-border rounded-md px-4 py-3 text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-foreground/20"
+            placeholder="jane@company.com"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="businessName"
+            className="block text-sm font-medium mb-1.5"
+          >
+            Business name{" "}
+            <span className="text-muted font-normal">(optional)</span>
+          </label>
+          <input
+            id="businessName"
+            type="text"
+            value={businessName}
+            onChange={(e) => setBusinessName(e.target.value)}
+            className="w-full border border-border rounded-md px-4 py-3 text-sm bg-surface focus:outline-none focus:ring-2 focus:ring-foreground/20"
+            placeholder="Acme Ltd"
+          />
+        </div>
+      </div>
+
+      <button
+        type="button"
+        disabled={!canSubmit || submitting}
+        onClick={() => onSubmit({ name, email, businessName })}
+        className={`w-full px-5 py-3 rounded-md text-sm font-medium transition-colors ${
+          canSubmit && !submitting
+            ? "bg-accent text-background hover:bg-accent-hover"
+            : "bg-border text-muted cursor-not-allowed"
+        }`}
+      >
+        {submitting ? "Loading your results..." : "See my AI Readiness Score"}
+      </button>
+
+      <p className="text-xs text-muted text-center">
+        No spam. Your data stays between us.
+      </p>
+    </div>
+  );
+}
+
+function Results({
+  answers,
+  contactName,
+}: {
+  answers: Answers;
+  contactName: string;
+}) {
   const score = scoredQuestions.reduce((total, q) => {
     const selected = answers[q.id] as string;
     const option = q.options?.find((o) => o.value === selected);
@@ -163,12 +272,13 @@ function Results({ answers }: { answers: Answers }) {
   const insights = getInsights(band);
   const businessSize = answers.q11 as string | undefined;
   const intro = getIntro(band, businessSize);
+  const firstName = contactName.split(" ")[0];
 
   return (
     <div className="space-y-12">
       <div className="text-center">
         <p className="text-sm font-medium text-muted uppercase tracking-wide mb-6">
-          Your AI Readiness Score
+          {firstName}&apos;s AI Readiness Score
         </p>
         <ScoreGauge score={score} />
       </div>
@@ -201,7 +311,10 @@ function Results({ answers }: { answers: Answers }) {
 export default function ScorecardForm() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
+  const [showEmailCapture, setShowEmailCapture] = useState(false);
   const [showResults, setShowResults] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [contactName, setContactName] = useState("");
 
   const totalQuestions = allQuestions.length;
   const currentQuestion = allQuestions[step];
@@ -210,7 +323,10 @@ export default function ScorecardForm() {
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }));
 
     // Auto-advance for single-select and scored questions
-    if (currentQuestion.type === "scored" || currentQuestion.type === "single") {
+    if (
+      currentQuestion.type === "scored" ||
+      currentQuestion.type === "single"
+    ) {
       if (step < totalQuestions - 1) {
         setTimeout(() => setStep((s) => s + 1), 200);
       }
@@ -221,12 +337,46 @@ export default function ScorecardForm() {
     if (step < totalQuestions - 1) {
       setStep((s) => s + 1);
     } else {
-      setShowResults(true);
+      setShowEmailCapture(true);
     }
   }
 
   function handleBack() {
     if (step > 0) setStep((s) => s - 1);
+  }
+
+  async function handleEmailSubmit(details: {
+    name: string;
+    email: string;
+    businessName: string;
+  }) {
+    setSubmitting(true);
+    setContactName(details.name);
+
+    const score = scoredQuestions.reduce((total, q) => {
+      const selected = answers[q.id] as string;
+      const option = q.options?.find((o) => o.value === selected);
+      return total + (option?.score || 0);
+    }, 0);
+
+    try {
+      await fetch("/api/scorecard", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...details,
+          score,
+          band: getBand(score),
+          businessSize: answers.q11,
+          answers,
+        }),
+      });
+    } catch {
+      // Don't block results if submission fails
+    }
+
+    setSubmitting(false);
+    setShowResults(true);
   }
 
   const canProceed =
@@ -235,7 +385,13 @@ export default function ScorecardForm() {
     answers[currentQuestion?.id] !== undefined;
 
   if (showResults) {
-    return <Results answers={answers} />;
+    return <Results answers={answers} contactName={contactName} />;
+  }
+
+  if (showEmailCapture) {
+    return (
+      <EmailCapture onSubmit={handleEmailSubmit} submitting={submitting} />
+    );
   }
 
   return (

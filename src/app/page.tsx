@@ -128,6 +128,12 @@ export default function Home() {
               New Zealand.
             </p>
           </div>
+          <a
+            href="mailto:ross@rossvincent.com?subject=AI%20Consulting%20Enquiry"
+            className="mt-6 inline-block text-sm font-medium underline underline-offset-4 hover:text-foreground transition-colors"
+          >
+            Get in touch &rarr;
+          </a>
         </div>
       </section>
 

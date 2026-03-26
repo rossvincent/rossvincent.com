@@ -47,8 +47,27 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
 
         <footer className="border-t border-border">
-          <div className="mx-auto max-w-4xl px-6 py-8 text-sm text-muted">
-            <p>&copy; {new Date().getFullYear()} Ross Vincent. All rights reserved.</p>
+          <div className="mx-auto max-w-4xl px-6 py-8 flex flex-col sm:flex-row justify-between gap-4 text-sm text-muted">
+            <p>
+              &copy; {new Date().getFullYear()} Ross Vincent. All rights
+              reserved.
+            </p>
+            <div className="flex gap-6">
+              <a
+                href="mailto:ross@rossvincent.com"
+                className="hover:text-foreground transition-colors"
+              >
+                ross@rossvincent.com
+              </a>
+              <a
+                href="https://www.linkedin.com/in/rossvincent/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-foreground transition-colors"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
         </footer>
       </body>
