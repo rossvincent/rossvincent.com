@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Font Comparison – rossvincent.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&family=Lora:ital,wght@0,400;1,400&family=Space+Grotesk:wght@400;500;600&family=Crimson+Pro:ital,wght@0,400;1,400&family=Sora:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --body: #3d3d3d;
+    --muted: #6b6b6b;
+    --border: #e2e0dc;
+    --surface: #f7f6f3;
+    --accent: #c45d3e;
+    --white: #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--white);
+    color: var(--body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding: 2rem;
+  }
+
+  .page-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .page-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .option {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .option:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .option-label {
+    background: var(--surface);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .option-label h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .option-label .current-badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    background: rgba(196,93,62,0.1);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+  }
+  .option-label span {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .option-body {
+    padding: 2rem 1.5rem;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  .headline {
+    font-weight: 400;
+    font-size: 2rem;
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin-bottom: 1rem;
+  }
+  .body-text {
+    font-size: 0.95rem;
+    color: var(--body);
+    max-width: 460px;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .card-row {
+    display: flex;
+    gap: 0.75rem;
+  }
+  .mini-card {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .mini-card .step {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+  .mini-card h4 {
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 0.35rem;
+  }
+  .mini-card p {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .stat {
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat em { color: var(--accent); font-style: italic; }
+  .stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+
+  /* Font families per option */
+  .opt-a .eyebrow, .opt-a .body-text, .opt-a .mini-card .step, .opt-a .mini-card p, .opt-a .stat-label { font-family: 'DM Sans', sans-serif; }
+  .opt-a .headline, .opt-a .mini-card h4, .opt-a .stat { font-family: 'Instrument Serif', serif; }
+
+  .opt-b .eyebrow, .opt-b .body-text, .opt-b .mini-card .step, .opt-b .mini-card p, .opt-b .stat-label { font-family: 'Inter', sans-serif; }
+  .opt-b .headline, .opt-b .mini-card h4, .opt-b .stat { font-family: 'Playfair Display', serif; }
+
+  .opt-c .eyebrow, .opt-c .body-text, .opt-c .mini-card .step, .opt-c .mini-card p, .opt-c .stat-label { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .opt-c .headline, .opt-c .mini-card h4, .opt-c .stat { font-family: 'Lora', serif; }
+
+  .opt-d .eyebrow, .opt-d .body-text, .opt-d .mini-card .step, .opt-d .mini-card p, .opt-d .stat-label { font-family: 'Space Grotesk', sans-serif; }
+  .opt-d .headline, .opt-d .mini-card h4, .opt-d .stat { font-family: 'Crimson Pro', serif; }
+
+  .opt-e .eyebrow, .opt-e .body-text, .opt-e .mini-card .step, .opt-e .mini-card p, .opt-e .stat-label { font-family: 'Sora', sans-serif; }
+  .opt-e .headline, .opt-e .mini-card h4, .opt-e .stat { font-family: 'Fraunces', serif; }
+
+  @media (max-width: 540px) {
+    .grid { grid-template-columns: 1fr; }
+    .card-row { flex-direction: column; }
+    body { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">Font Comparison</div>
+<div class="page-subtitle">Same content, five pairings. Pick the one that feels right.</div>
+
+<div class="grid">
+
+  <!-- OPTION A: Current -->
+  <div class="option opt-a">
+    <div class="option-label">
+      <h3>A · DM Sans + Instrument Serif</h3>
+      <span class="current-badge">Current</span>
+    </div>
+    <div class="option-body">
+      <div class="eyebrow">AI consulting for small businesses</div>
+      <div class="headline">AI that actually works for your business</div>
+      <div class="body-text">Most small businesses know they should be doing something with AI – but they're overwhelmed by the noise, unsure where to start, and worried about wasting money on the wrong tools.</div>
+      <div class="card-row">
+        <div class="mini-card">
+          <div class="step">Step 1</div>
+          <h4>AI Readiness Audit</h4>
+          <p>I look at your operations and tell you exactly where AI fits.</p>
+        </div>
+        <div class="mini-card">
+          <div class="step">Step 2</div>
+          <h4>Done-For-You Automation</h4>
+          <p>Flat monthly fee. I build and manage everything.</p>
+        </div>
+      </div>
+      <div class="stat">72% using AI. Fewer than <em>20%</em> captured value.</div>
+      <div class="stat-label">McKinsey Global AI Survey, 2024</div>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="option opt-b">
+    <div class="option-label">
+      <h3>B · Inter + Playfair Display</h3>
+      <span>Clean + classic editorial</span>
+    </div>
+    <div class="option-body">
+      <div class="eyebrow">AI consulting for small businesses</div>
+      <div class="headline">AI that actually works for your business</div>
+      <div class="body-text">Most small businesses know they should be doing something with AI – but they're overwhelmed by the noise, unsure where to start, and worried about wasting money on the wrong tools.</div>
+      <div class="card-row">
+        <div class="mini-card">
+          <div class="step">Step 1</div>
+          <h4>AI Readiness Audit</h4>
+          <p>I look at your operations and tell you exactly where AI fits.</p>
+        </div>
+        <div class="mini-card">
+          <div class="step">Step 2</div>
+          <h4>Done-For-You Automation</h4>
+          <p>Flat monthly fee. I build and manage everything.</p>
+        </div>
+      </div>
+      <div class="stat">72% using AI. Fewer than <em>20%</em> captured value.</div>
+      <div class="stat-label">McKinsey Global AI Survey, 2024</div>
+    </div>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="option opt-c">
+    <div class="option-label">
+      <h3>C · Plus Jakarta Sans + Lora</h3>
+      <span>Geometric + warm readable</span>
+    </div>
+    <div class="option-body">
+      <div class="eyebrow">AI consulting for small businesses</div>
+      <div class="headline">AI that actually works for your business</div>
+      <div class="body-text">Most small businesses know they should be doing something with AI – but they're overwhelmed by the noise, unsure where to start, and worried about wasting money on the wrong tools.</div>
+      <div class="card-row">
+        <div class="mini-card">
+          <div class="step">Step 1</div>
+          <h4>AI Readiness Audit</h4>
+          <p>I look at your operations and tell you exactly where AI fits.</p>
+        </div>
+        <div class="mini-card">
+          <div class="step">Step 2</div>
+          <h4>Done-For-You Automation</h4>
+          <p>Flat monthly fee. I build and manage everything.</p>
+        </div>
+      </div>
+      <div class="stat">72% using AI. Fewer than <em>20%</em> captured value.</div>
+      <div class="stat-label">McKinsey Global AI Survey, 2024</div>
+    </div>
+  </div>
+
+  <!-- OPTION D -->
+  <div class="option opt-d">
+    <div class="option-label">
+      <h3>D · Space Grotesk + Crimson Pro</h3>
+      <span>Technical + elegant</span>
+    </div>
+    <div class="option-body">
+      <div class="eyebrow">AI consulting for small businesses</div>
+      <div class="headline">AI that actually works for your business</div>
+      <div class="body-text">Most small businesses know they should be doing something with AI – but they're overwhelmed by the noise, unsure where to start, and worried about wasting money on the wrong tools.</div>
+      <div class="card-row">
+        <div class="mini-card">
+          <div class="step">Step 1</div>
+          <h4>AI Readiness Audit</h4>
+          <p>I look at your operations and tell you exactly where AI fits.</p>
+        </div>
+        <div class="mini-card">
+          <div class="step">Step 2</div>
+          <h4>Done-For-You Automation</h4>
+          <p>Flat monthly fee. I build and manage everything.</p>
+        </div>
+      </div>
+      <div class="stat">72% using AI. Fewer than <em>20%</em> captured value.</div>
+      <div class="stat-label">McKinsey Global AI Survey, 2024</div>
+    </div>
+  </div>
+
+  <!-- OPTION E -->
+  <div class="option opt-e">
+    <div class="option-label">
+      <h3>E · Sora + Fraunces</h3>
+      <span>Modern + organic character</span>
+    </div>
+    <div class="option-body">
+      <div class="eyebrow">AI consulting for small businesses</div>
+      <div class="headline">AI that actually works for your business</div>
+      <div class="body-text">Most small businesses know they should be doing something with AI – but they're overwhelmed by the noise, unsure where to start, and worried about wasting money on the wrong tools.</div>
+      <div class="card-row">
+        <div class="mini-card">
+          <div class="step">Step 1</div>
+          <h4>AI Readiness Audit</h4>
+          <p>I look at your operations and tell you exactly where AI fits.</p>
+        </div>
+        <div class="mini-card">
+          <div class="step">Step 2</div>
+          <h4>Done-For-You Automation</h4>
+          <p>Flat monthly fee. I build and manage everything.</p>
+        </div>
+      </div>
+      <div class="stat">72% using AI. Fewer than <em>20%</em> captured value.</div>
+      <div class="stat-label">McKinsey Global AI Survey, 2024</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

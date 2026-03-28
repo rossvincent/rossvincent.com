@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Lora } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -20,42 +28,55 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${plusJakarta.variable} ${lora.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col font-sans">
-        <header className="border-b border-border">
-          <nav className="mx-auto max-w-4xl px-6 py-5 flex items-center justify-between">
-            <Link href="/" className="text-lg font-semibold tracking-tight">
+        {/* NAV */}
+        <nav className="sticky top-0 z-50 bg-white/92 backdrop-blur-[12px] border-b border-border">
+          <div className="mx-auto max-w-[1120px] px-[clamp(1.25rem,4vw,3rem)] py-3.5 flex items-center justify-between">
+            <Link
+              href="/"
+              className="font-semibold text-[1.05rem] text-ink tracking-[-0.01em] no-underline"
+            >
               Ross Vincent
             </Link>
-            <div className="flex items-center gap-8 text-sm">
+            <div className="flex items-center gap-7">
               <Link
                 href="/#services"
-                className="text-muted hover:text-foreground transition-colors"
+                className="text-[0.9rem] text-muted font-medium no-underline hover:text-ink transition-colors"
               >
                 Services
               </Link>
               <Link
-                href="/scorecard"
-                className="bg-accent text-background px-4 py-2 rounded-md text-sm font-medium hover:bg-accent-hover transition-colors"
+                href="/#about"
+                className="text-[0.9rem] text-muted font-medium no-underline hover:text-ink transition-colors"
               >
-                Free AI Assessment
+                About
+              </Link>
+              <Link
+                href="/scorecard"
+                className="text-[0.85rem] font-medium text-white bg-ink px-5 py-2.5 rounded-md no-underline hover:bg-[#333] transition-colors"
+              >
+                Free AI Assessment →
               </Link>
             </div>
-          </nav>
-        </header>
+          </div>
+        </nav>
 
         <main className="flex-1">{children}</main>
 
+        {/* FOOTER */}
         <footer className="border-t border-border">
-          <div className="mx-auto max-w-4xl px-6 py-8 flex flex-col sm:flex-row justify-between gap-4 text-sm text-muted">
-            <p>
-              &copy; {new Date().getFullYear()} Ross Vincent. All rights
-              reserved.
+          <div className="mx-auto max-w-[1120px] px-[clamp(1.25rem,4vw,3rem)] py-8 flex items-center justify-between flex-wrap gap-4">
+            <p className="text-[0.8rem] text-muted">
+              © {new Date().getFullYear()} Ross Vincent. All rights reserved.
             </p>
-            <div className="flex gap-6">
+            <div className="flex items-center gap-6">
               <a
                 href="mailto:ross@rossvincent.com"
-                className="hover:text-foreground transition-colors"
+                className="text-[0.8rem] text-muted no-underline hover:text-ink transition-colors"
               >
                 ross@rossvincent.com
               </a>
@@ -63,7 +84,7 @@ export default function RootLayout({
                 href="https://www.linkedin.com/in/rossvincent/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-foreground transition-colors"
+                className="text-[0.8rem] text-muted no-underline hover:text-ink transition-colors"
               >
                 LinkedIn
               </a>
