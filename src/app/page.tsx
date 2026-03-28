@@ -8,7 +8,7 @@ export default function Home() {
         <div className="mx-auto max-w-[1120px] px-[clamp(1.25rem,4vw,3rem)] py-[clamp(3rem,8vw,5.5rem)] grid grid-cols-1 md:grid-cols-[1fr_0.42fr] gap-[clamp(2rem,5vw,4rem)] items-center">
           <div>
             <div className="text-[0.78rem] font-semibold tracking-[0.08em] uppercase text-accent mb-4">
-              AI consulting for small businesses
+              AI implementation for small businesses
             </div>
             <h1 className="font-serif font-normal text-[clamp(2.4rem,5vw,3.6rem)] leading-[1.12] text-ink tracking-[-0.015em] mb-5">
               I help business owners build AI systems that work
@@ -84,7 +84,7 @@ export default function Home() {
         <div className="mx-auto max-w-[1120px] flex items-center justify-center gap-[clamp(2rem,5vw,4rem)] flex-wrap">
           <div className="text-center">
             <div className="font-serif text-[1.75rem] text-ink leading-[1.2]">
-              15+
+              20
             </div>
             <div className="text-[0.78rem] text-muted mt-1">
               Years building businesses
@@ -134,7 +134,7 @@ export default function Home() {
               tools that don&apos;t fit.
             </p>
             <p className="text-[1.05rem] text-body max-w-[520px] leading-[1.7] mt-3">
-              That&apos;s where I come in. I&apos;ve spent 15 years in the trenches
+              That&apos;s where I come in. I&apos;ve spent 20 years in the trenches
               of small business operations – growth marketing, automation, financial
               modelling – and now I apply that experience to AI implementation that
               actually sticks.
@@ -253,14 +253,17 @@ export default function Home() {
               I build things that work
             </h2>
             <p className="text-[1rem] text-body max-w-[540px] mb-4 leading-[1.7]">
-              I&apos;m Ross Vincent. I&apos;ve spent 15+ years building and
-              scaling direct-to-consumer brands – growth marketing, operational
-              automation, financial modelling, and team building.
+              I&apos;m Ross Vincent. I&apos;ve spent 20 years starting and
+              running businesses – B2B, direct-to-consumer, events, and now
+              consulting. I&apos;ve done the growth marketing, built the
+              automations, managed the ops, hired the teams, and done the
+              books. Every hat a small business owner wears, I&apos;ve worn it.
             </p>
             <p className="text-[1rem] text-body max-w-[540px] mb-4 leading-[1.7]">
-              Now I help small business owners cut through the AI noise and get
-              practical results. Not theory – working tools and systems. I build
-              AI that saves real time and money.
+              That&apos;s why I do this work. I know what it&apos;s like to run
+              everything yourself and not have time to figure out where AI fits.
+              I help business owners like me cut through the noise and get
+              practical results – working tools and systems, not theory.
             </p>
             <div className="flex flex-wrap gap-8 mt-6 pt-6 border-t border-border">
               <div className="flex items-start gap-2">
