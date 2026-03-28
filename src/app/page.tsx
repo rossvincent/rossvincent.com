@@ -311,6 +311,62 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SCORECARD TESTIMONIALS */}
+      <section className="py-[clamp(3rem,6vw,5rem)] px-[clamp(1.25rem,4vw,3rem)]">
+        <div className="mx-auto max-w-[1120px]">
+          <div className="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-accent mb-3">
+            What people are saying
+          </div>
+          <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.4rem)] text-ink mb-[clamp(2rem,4vw,3rem)] leading-[1.2]">
+            After taking the AI Readiness Assessment
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            <div className="bg-warm-bg border border-border rounded-[10px] p-[clamp(1.5rem,3vw,2rem)]">
+              <p className="text-[0.95rem] text-body leading-[1.65] mb-5 italic">
+                &ldquo;Placeholder testimonial – replace with real quote from
+                first person who completes the scorecard.&rdquo;
+              </p>
+              <div>
+                <div className="text-[0.88rem] font-medium text-ink">
+                  First Last
+                </div>
+                <div className="text-[0.78rem] text-muted">
+                  Business type
+                </div>
+              </div>
+            </div>
+            <div className="bg-warm-bg border border-border rounded-[10px] p-[clamp(1.5rem,3vw,2rem)]">
+              <p className="text-[0.95rem] text-body leading-[1.65] mb-5 italic">
+                &ldquo;Placeholder testimonial – replace with real quote from
+                second person who completes the scorecard.&rdquo;
+              </p>
+              <div>
+                <div className="text-[0.88rem] font-medium text-ink">
+                  First Last
+                </div>
+                <div className="text-[0.78rem] text-muted">
+                  Business type
+                </div>
+              </div>
+            </div>
+            <div className="bg-warm-bg border border-border rounded-[10px] p-[clamp(1.5rem,3vw,2rem)]">
+              <p className="text-[0.95rem] text-body leading-[1.65] mb-5 italic">
+                &ldquo;Placeholder testimonial – replace with real quote from
+                third person who completes the scorecard.&rdquo;
+              </p>
+              <div>
+                <div className="text-[0.88rem] font-medium text-ink">
+                  First Last
+                </div>
+                <div className="text-[0.78rem] text-muted">
+                  Business type
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* BOTTOM CTA */}
       <section className="bg-ink py-[clamp(3rem,6vw,4.5rem)] px-[clamp(1.25rem,4vw,3rem)] text-center">
         <div className="max-w-[560px] mx-auto">
