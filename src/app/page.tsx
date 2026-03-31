@@ -52,8 +52,8 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="flex flex-col gap-4 md:order-none order-first max-w-[280px] md:max-w-none">
-            <div className="w-full aspect-[3/3.5] md:aspect-[3/3.5] aspect-square bg-warm-bg rounded-[10px] border border-border overflow-hidden">
+          <div className="flex flex-col gap-4 md:order-none order-first w-full md:max-w-none">
+            <div className="w-full aspect-square md:aspect-[3/3.5] bg-warm-bg rounded-[10px] border border-border overflow-hidden">
               <img
                 src="/ross-headshot.jpg"
                 alt="Ross Vincent"
@@ -71,8 +71,8 @@ export default function Home() {
 
       {/* SOCIAL PROOF BAR */}
       <div className="bg-white border-b border-border py-8 px-[clamp(1.25rem,4vw,3rem)]">
-        <div className="mx-auto max-w-[1120px] flex items-center justify-center gap-[clamp(2rem,5vw,4rem)] flex-wrap">
-          <div className="text-center">
+        <div className="mx-auto max-w-[1120px] grid grid-cols-3 md:flex md:items-center md:justify-center md:gap-[clamp(2rem,5vw,4rem)]">
+          <div className="text-center py-4 md:py-0">
             <div className="font-serif text-[1.75rem] text-ink leading-[1.2]">
               20
             </div>
@@ -80,8 +80,8 @@ export default function Home() {
               Years building businesses
             </div>
           </div>
-          <div className="w-px h-10 bg-border max-md:w-[60px] max-md:h-px" />
-          <div className="text-center">
+          <div className="hidden md:block w-px h-10 bg-border" />
+          <div className="text-center py-4 md:py-0 border-x border-border md:border-0">
             <div className="font-serif text-[1.75rem] text-ink leading-[1.2]">
               Founder
             </div>
@@ -89,8 +89,8 @@ export default function Home() {
               Not just a consultant
             </div>
           </div>
-          <div className="w-px h-10 bg-border max-md:w-[60px] max-md:h-px" />
-          <div className="text-center">
+          <div className="hidden md:block w-px h-10 bg-border" />
+          <div className="text-center py-4 md:py-0">
             <div className="font-serif text-[1.75rem] text-ink leading-[1.2]">
               UK &amp; NZ
             </div>
