@@ -53,14 +53,14 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-col gap-4 md:order-none order-first w-full md:max-w-none">
-            <div className="w-full aspect-square md:aspect-[3/3.5] bg-warm-bg rounded-[10px] border border-border overflow-hidden">
+            <div className="w-full aspect-[3/4] md:aspect-[3/3.5] bg-warm-bg rounded-[10px] border border-border overflow-hidden">
               <img
                 src="/ross-headshot.jpg"
                 alt="Ross Vincent"
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <div className="flex items-center gap-2 text-[0.8rem] text-muted">
+            <div className="hidden md:flex items-center gap-2 text-[0.8rem] text-muted">
               <span className="w-[7px] h-[7px] bg-[#5cb176] rounded-full shrink-0" />
               Based in East Sussex, UK · Working with businesses across the UK &amp;
               NZ
