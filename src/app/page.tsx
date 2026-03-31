@@ -22,6 +22,11 @@ export default function Home() {
               I cut through that. I find where AI fits, build it, and make it
               stick.
             </p>
+            <p className="text-[0.88rem] text-muted max-w-[520px] leading-[1.6] mt-4">
+              20 years building and running businesses. Every hat a small business
+              owner wears, I&apos;ve worn it. I approach AI from an operations
+              perspective, not a technology one.
+            </p>
             <div className="flex flex-wrap gap-3.5 mt-7">
               <Link
                 href="/scorecard"
@@ -48,27 +53,12 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-col gap-4 md:order-none order-first max-w-[280px] md:max-w-none">
-            <div className="w-full aspect-[3/3.5] md:aspect-[3/3.5] aspect-square bg-warm-bg rounded-[10px] border border-border flex items-center justify-center overflow-hidden">
-              <div className="text-muted text-[0.8rem] text-center px-4 leading-relaxed">
-                <svg
-                  viewBox="0 0 64 64"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-16 h-16 opacity-25 mx-auto"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <circle cx="32" cy="24" r="12" />
-                  <path d="M10 56c0-12.15 9.85-22 22-22s22 9.85 22 22" />
-                </svg>
-                <div className="mt-2">
-                  Your headshot here
-                  <br />
-                  <span className="text-[0.7rem] opacity-70">
-                    Professional, approachable, natural light
-                  </span>
-                </div>
-              </div>
+            <div className="w-full aspect-[3/3.5] md:aspect-[3/3.5] aspect-square bg-warm-bg rounded-[10px] border border-border overflow-hidden">
+              <img
+                src="/ross-headshot.jpg"
+                alt="Ross Vincent"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
             <div className="flex items-center gap-2 text-[0.8rem] text-muted">
               <span className="w-[7px] h-[7px] bg-[#5cb176] rounded-full shrink-0" />
@@ -139,6 +129,40 @@ export default function Home() {
               modelling – and now I apply that experience to AI implementation that
               actually works.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* USE CASES */}
+      <section className="py-[clamp(3rem,6vw,5rem)] px-[clamp(1.25rem,4vw,3rem)]">
+        <div className="mx-auto max-w-[1120px]">
+          <div className="mb-[clamp(2rem,4vw,3rem)]">
+            <div className="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-accent">
+              What I automate
+            </div>
+            <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.4rem)] text-ink mt-3 leading-[1.2]">
+              AI that does real work in your business
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            {[
+              { title: "Customer reminders", desc: "Automated appointment and follow-up reminders via SMS or email – no manual chasing." },
+              { title: "Lead qualification", desc: "AI scores and routes inbound enquiries so you focus on the ones most likely to convert." },
+              { title: "Client onboarding", desc: "Documents, welcome emails, and CRM updates triggered automatically when a new client signs up." },
+              { title: "Meeting summaries", desc: "AI captures notes, extracts action items, and updates your systems after every call." },
+              { title: "Customer support", desc: "AI drafts replies to common questions – you review and send, or let it handle them directly." },
+              { title: "Admin automation", desc: "Invoicing, scheduling, data entry, and reporting – the repetitive work that eats your week." },
+            ].map((item) => (
+              <div key={item.title} className="flex gap-3 items-start">
+                <svg viewBox="0 0 20 20" className="w-5 h-5 text-accent shrink-0 mt-0.5" fill="currentColor">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                <div>
+                  <div className="text-[0.95rem] font-medium text-ink">{item.title}</div>
+                  <div className="text-[0.85rem] text-body leading-[1.6] mt-1">{item.desc}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -323,15 +347,14 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             <div className="bg-warm-bg border border-border rounded-[10px] p-[clamp(1.5rem,3vw,2rem)]">
               <p className="text-[0.95rem] text-body leading-[1.65] mb-5 italic">
-                &ldquo;Placeholder testimonial – replace with real quote from
-                first person who completes the scorecard.&rdquo;
+                &ldquo;Really useful. The audit confirmed we&rsquo;re already doing a lot of the right things &ndash; in some areas, we&rsquo;re ahead of other companies. Most importantly, it gave us confidence we&rsquo;re on the right track, along with clear, practical next steps.&rdquo;
               </p>
               <div>
                 <div className="text-[0.88rem] font-medium text-ink">
-                  First Last
+                  Sasha Michel, Founder &amp; CEO
                 </div>
                 <div className="text-[0.78rem] text-muted">
-                  Business type
+                  Canvas Events
                 </div>
               </div>
             </div>
