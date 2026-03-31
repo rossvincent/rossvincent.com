@@ -137,7 +137,7 @@ export default function Home() {
               That&apos;s where I come in. I&apos;ve spent 20 years in the trenches
               of small business operations – growth marketing, automation, financial
               modelling – and now I apply that experience to AI implementation that
-              actually sticks.
+              actually works.
             </p>
           </div>
         </div>
