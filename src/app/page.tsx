@@ -141,7 +141,7 @@ export default function Home() {
               Sound familiar?
             </div>
             <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.4rem)] text-ink mt-3 leading-[1.2]">
-              These are the problems I solve with AI
+              These are some of the problems I solve with AI
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
