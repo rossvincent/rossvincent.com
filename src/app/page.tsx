@@ -277,17 +277,20 @@ export default function Home() {
               I build things that work
             </h2>
             <p className="text-[1rem] text-body max-w-[540px] mb-4 leading-[1.7]">
-              I&apos;m Ross Vincent. I&apos;ve spent 20 years starting and
-              running businesses – B2B, direct-to-consumer, events, and now
-              consulting. I&apos;ve done the growth marketing, built the
-              automations, managed the ops, hired the teams, and done the
-              books. Every hat a small business owner wears, I&apos;ve worn it.
+              I&apos;m Ross – based in Forest Row, East Sussex. I&apos;ve spent
+              my career starting and running businesses, not advising from the
+              sidelines, which is why I focus on AI that works in practice, not
+              in theory.
             </p>
             <p className="text-[1rem] text-body max-w-[540px] mb-4 leading-[1.7]">
-              That&apos;s why I do this work. I know what it&apos;s like to run
-              everything yourself and not have time to figure out where AI fits.
-              I help business owners like me cut through the noise and get
-              practical results – working tools and systems, not theory.
+              I&apos;m a new dad – my wife Emily and I recently welcomed our son
+              Blue – and that&apos;s reshaped how I think about work. Less time,
+              higher standards for what deserves attention. Every system I build
+              for myself or a client has to genuinely earn its place.
+            </p>
+            <p className="text-[1rem] text-body max-w-[540px] mb-4 leading-[1.7]">
+              When I&apos;m not working, I&apos;m generally outside in nature
+              somewhere, training, or renovating a 111-year-old house. Slowly.
             </p>
             <div className="flex flex-wrap gap-8 mt-6 pt-6 border-t border-border">
               <div className="flex items-start gap-2">
@@ -351,7 +354,7 @@ export default function Home() {
               </p>
               <div>
                 <div className="text-[0.88rem] font-medium text-ink">
-                  Sasha Michel, Founder &amp; CEO
+                  Sascha Michel, Founder &amp; CEO
                 </div>
                 <div className="text-[0.78rem] text-muted">
                   Canvas Events
