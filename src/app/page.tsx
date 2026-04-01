@@ -290,7 +290,7 @@ export default function Home() {
             </p>
             <p className="text-[1rem] text-body max-w-[540px] mb-4 leading-[1.7]">
               When I&apos;m not working, I&apos;m generally outside in nature
-              somewhere, training, or renovating a 111-year-old house. Slowly.
+              somewhere, training, or renovating our 111-year-old house. Slowly.
             </p>
             <div className="flex flex-wrap gap-8 mt-6 pt-6 border-t border-border">
               <div className="flex items-start gap-2">
