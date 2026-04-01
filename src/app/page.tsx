@@ -134,7 +134,7 @@ export default function Home() {
       </section>
 
       {/* USE CASES */}
-      <section className="py-[clamp(3rem,6vw,5rem)] px-[clamp(1.25rem,4vw,3rem)]">
+      <section className="pt-[clamp(1.5rem,3vw,2.5rem)] pb-[clamp(3rem,6vw,5rem)] px-[clamp(1.25rem,4vw,3rem)]">
         <div className="mx-auto max-w-[1120px]">
           <div className="mb-[clamp(2rem,4vw,3rem)]">
             <div className="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-accent">
@@ -336,7 +336,7 @@ export default function Home() {
       </section>
 
       {/* SCORECARD TESTIMONIALS */}
-      <section className="py-[clamp(3rem,6vw,5rem)] px-[clamp(1.25rem,4vw,3rem)]">
+      <section className="pt-[clamp(1.5rem,3vw,2.5rem)] pb-[clamp(3rem,6vw,5rem)] px-[clamp(1.25rem,4vw,3rem)]">
         <div className="mx-auto max-w-[1120px]">
           <div className="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-accent mb-3">
             What people are saying
