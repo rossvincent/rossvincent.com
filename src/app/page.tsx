@@ -133,33 +133,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* USE CASES */}
+      {/* PAIN POINTS */}
       <section className="pt-[clamp(1.5rem,3vw,2.5rem)] pb-[clamp(3rem,6vw,5rem)] px-[clamp(1.25rem,4vw,3rem)]">
         <div className="mx-auto max-w-[1120px]">
           <div className="mb-[clamp(2rem,4vw,3rem)]">
             <div className="text-[0.72rem] font-semibold tracking-[0.1em] uppercase text-accent">
-              What I automate
+              Sound familiar?
             </div>
             <h2 className="font-serif text-[clamp(1.8rem,3.5vw,2.4rem)] text-ink mt-3 leading-[1.2]">
-              AI that does real work in your business
+              These are the problems I solve with AI
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
             {[
-              { title: "Customer reminders", desc: "Automated appointment and follow-up reminders via SMS or email – no manual chasing." },
-              { title: "Lead qualification", desc: "AI scores and routes inbound enquiries so you focus on the ones most likely to convert." },
-              { title: "Client onboarding", desc: "Documents, welcome emails, and CRM updates triggered automatically when a new client signs up." },
-              { title: "Meeting summaries", desc: "AI captures notes, extracts action items, and updates your systems after every call." },
-              { title: "Customer support", desc: "AI drafts replies to common questions – you review and send, or let it handle them directly." },
-              { title: "Admin automation", desc: "Invoicing, scheduling, data entry, and reporting – the repetitive work that eats your week." },
+              {
+                hook: "Losing a day a week to paperwork?",
+                shift: "AI handles your invoicing, expense tracking, and document generation – so you spend time on work that actually pays.",
+              },
+              {
+                hook: "Enquiries coming in. Nobody free to answer.",
+                shift: "AI responds to leads instantly – qualifying them, answering FAQs, and booking calls – so you never lose a customer because you were busy serving one.",
+              },
+              {
+                hook: "Hours on proposals. Most go nowhere.",
+                shift: "AI drafts proposals from a brief conversation and follows up automatically. Your job becomes reviewing and sending, not starting from scratch.",
+              },
+              {
+                hook: "Clients owe you. You owe everyone else.",
+                shift: "Automated payment reminders run in the background. You get a weekly cash flow summary in plain English instead of chasing 15 overdue invoices.",
+              },
+              {
+                hook: "Your team can\u2019t do anything without asking you.",
+                shift: "AI captures what you know and makes it available to your team – so they answer their own questions and stop interrupting you 20 times a day.",
+              },
+              {
+                hook: "Marketing happens when you remember.",
+                shift: "AI turns your bullet points into a month\u2019s worth of content – social posts, emails, blog drafts – reviewed by you, published consistently.",
+              },
+              {
+                hook: "The same 10 questions. Every. Single. Day.",
+                shift: "An AI assistant handles the predictable queries instantly, so your team focuses on the stuff that actually needs a human.",
+              },
+              {
+                hook: "You won\u2019t know your numbers until it\u2019s too late.",
+                shift: "AI connects to your accounting software and tells you what\u2019s happening in plain English – not a 40-page report, but a clear weekly summary.",
+              },
             ].map((item) => (
-              <div key={item.title} className="flex gap-3 items-start">
-                <svg viewBox="0 0 20 20" className="w-5 h-5 text-accent shrink-0 mt-0.5" fill="currentColor">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                <div>
-                  <div className="text-[0.95rem] font-medium text-ink">{item.title}</div>
-                  <div className="text-[0.85rem] text-body leading-[1.6] mt-1">{item.desc}</div>
+              <div
+                key={item.hook}
+                className="bg-warm-bg border border-border rounded-[10px] p-[clamp(1.25rem,2.5vw,1.75rem)]"
+              >
+                <div className="text-[0.95rem] font-medium text-ink leading-[1.4] mb-2">
+                  {item.hook}
+                </div>
+                <div className="text-[0.85rem] text-body leading-[1.6]">
+                  {item.shift}
                 </div>
               </div>
             ))}
