@@ -298,6 +298,8 @@ function Results({
         <div className="flex flex-col sm:flex-row gap-4 pt-4">
           <a
             href="https://calendly.com/ross-rossvincent/30min"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-accent text-background px-6 py-3 rounded-md text-sm font-medium hover:bg-accent-hover transition-colors text-center"
           >
             Book a free 30-minute call
