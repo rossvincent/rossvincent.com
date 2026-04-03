@@ -64,5 +64,5 @@ export function getIntro(
     return "I'm Ross. I help businesses like yours cut through the AI noise and implement what actually works. I've seen your results and I think a conversation would be genuinely valuable – not a sales pitch, just a clear-eyed look at where AI could move the needle for you.";
   }
 
-  return "I'm Ross. Thanks for taking the assessment – knowing where you stand is the first step. I've put together some resources below that'll help you start building the foundations. When you're ready for hands-on help, I'm here.";
+  return "I'm Ross. Thanks for taking the assessment – knowing where you stand is the first step. When you're ready for hands-on help, I'm here.";
 }

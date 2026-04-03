@@ -297,10 +297,16 @@ function Results({
 
         <div className="flex flex-col sm:flex-row gap-4 pt-4">
           <a
-            href="mailto:ross@rossvincent.com?subject=AI%20Readiness%20–%20Let's%20talk"
+            href="https://calendly.com/ross-rossvincent/30min"
             className="bg-accent text-background px-6 py-3 rounded-md text-sm font-medium hover:bg-accent-hover transition-colors text-center"
           >
             Book a free 30-minute call
+          </a>
+          <a
+            href="mailto:ross@rossvincent.com?subject=AI%20Readiness%20–%20Let's%20talk"
+            className="border border-border text-foreground px-6 py-3 rounded-md text-sm font-medium hover:bg-surface transition-colors text-center"
+          >
+            Or just send me an email
           </a>
         </div>
       </div>
