@@ -391,15 +391,14 @@ export default function Home() {
             </div>
             <div className="bg-warm-bg border border-border rounded-[10px] p-[clamp(1.5rem,3vw,2rem)]">
               <p className="text-[0.95rem] text-body leading-[1.65] mb-5 italic">
-                &ldquo;Placeholder testimonial – replace with real quote from
-                second person who completes the scorecard.&rdquo;
+                &ldquo;The assessment really helped us clarify where to focus our efforts and budget in the next phase of our AI rollout.&rdquo;
               </p>
               <div>
                 <div className="text-[0.88rem] font-medium text-ink">
-                  First Last
+                  Patrick Cunningham, CEO &amp; Founder
                 </div>
                 <div className="text-[0.78rem] text-muted">
-                  Business type
+                  Indulge Media
                 </div>
               </div>
             </div>
