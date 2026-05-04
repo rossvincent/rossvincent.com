@@ -404,15 +404,14 @@ export default function Home() {
             </div>
             <div className="bg-warm-bg border border-border rounded-[10px] p-[clamp(1.5rem,3vw,2rem)]">
               <p className="text-[0.95rem] text-body leading-[1.65] mb-5 italic">
-                &ldquo;Placeholder testimonial – replace with real quote from
-                third person who completes the scorecard.&rdquo;
+                &ldquo;I was nervous taking it &ndash; I&rsquo;m not a tech person. But it was honest about what a small business actually needs from AI, and what to ignore. I came away with one or two practical things to act on.&rdquo;
               </p>
               <div>
                 <div className="text-[0.88rem] font-medium text-ink">
-                  First Last
+                  Barbara Tubby, Owner
                 </div>
                 <div className="text-[0.78rem] text-muted">
-                  Business type
+                  Short Bark and Sides
                 </div>
               </div>
             </div>
