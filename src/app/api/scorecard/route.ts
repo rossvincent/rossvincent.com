@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { allQuestions } from "../../scorecard/questions";
+import { allQuestions } from "../../(marketing)/scorecard/questions";
 
 function formatAnswers(answers: Record<string, string | string[]>): string {
   return allQuestions
