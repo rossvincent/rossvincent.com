@@ -1,12 +1,13 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { login, type LoginState } from "./actions";
 
 const initialState: LoginState = {};
 
 export default function LoginPage() {
   const [state, formAction, pending] = useActionState(login, initialState);
+  const [reveal, setReveal] = useState(false);
 
   return (
     <div
@@ -45,11 +46,14 @@ export default function LoginPage() {
           Board
         </h1>
         <input
-          type="password"
+          type={reveal ? "text" : "password"}
           name="password"
           placeholder="Password"
           autoFocus
           required
+          autoCapitalize="off"
+          autoCorrect="off"
+          spellCheck={false}
           style={{
             padding: "0.65rem 0.85rem",
             borderRadius: "3px",
@@ -59,6 +63,23 @@ export default function LoginPage() {
             fontSize: "0.95rem",
           }}
         />
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            color: "#9aacb1",
+            fontSize: "0.82rem",
+            cursor: "pointer",
+          }}
+        >
+          <input
+            type="checkbox"
+            checked={reveal}
+            onChange={(e) => setReveal(e.target.checked)}
+          />
+          Show what I'm typing
+        </label>
         {state.error && (
           <p style={{ color: "#ef7a70", fontSize: "0.85rem", margin: 0 }}>
             {state.error}

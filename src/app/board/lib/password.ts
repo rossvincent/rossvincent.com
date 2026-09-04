@@ -23,7 +23,10 @@ export function timingSafeEqualStr(a: string, b: string): boolean {
 // genuinely long passphrase, which is this page's stand-in for heavier
 // login-throttling infrastructure.
 export function checkPassword(submitted: string): boolean {
-  const expected = process.env.BOARD_PASSWORD || "";
+  // Trimmed on both sides: a stray leading/trailing space from a copy-paste
+  // shouldn't turn a correct passphrase into a rejected one. The trimmed
+  // value is still checked against the same 20-character floor.
+  const expected = (process.env.BOARD_PASSWORD || "").trim();
   if (expected.length < 20) return false;
-  return timingSafeEqualStr(submitted, expected);
+  return timingSafeEqualStr(submitted.trim(), expected);
 }
