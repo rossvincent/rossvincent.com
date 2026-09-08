@@ -1,0 +1,181 @@
+/* The kitchen page, built to the house rules in AGENTS.md.
+   Direction: the technical drawing. Off-white paper, near-black ink,
+   hairline rules, every figure monospaced and right-aligned, generous space.
+   No cards, no shadows, no radius, no gradients.
+
+   One accent, one job: it fires only where the week breaks one of its own
+   rules, which is a meal well over the saturated fat cap or a weekly measure
+   that misses its target. It is never used for emphasis or decoration. */
+
+.kt {
+  --paper: oklch(0.975 0.004 85);
+  --ink: oklch(0.22 0.006 85);
+  --muted: oklch(0.52 0.006 85);
+  --faint: oklch(0.66 0.005 85);
+  --rule: oklch(0.9 0.004 85);
+  --rule-strong: oklch(0.78 0.005 85);
+  --accent: oklch(0.53 0.19 27);
+
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--kt-serif), Charter, "Bitstream Charter", Georgia, serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The same drawing at night: paper becomes the instrument, ink becomes the
+   trace. Lightness moves, hue and chroma stay, so the accent keeps meaning
+   the same thing in both. */
+@media (prefers-color-scheme: dark) {
+  .kt {
+    --paper: oklch(0.17 0.006 85);
+    --ink: oklch(0.93 0.004 85);
+    --muted: oklch(0.68 0.006 85);
+    --faint: oklch(0.52 0.005 85);
+    --rule: oklch(0.3 0.005 85);
+    --rule-strong: oklch(0.42 0.005 85);
+    --accent: oklch(0.7 0.17 27);
+  }
+}
+
+.kt * { box-sizing: border-box; }
+.kt-wrap { max-width: 40rem; margin: 0 auto; padding: 2.5rem 1.25rem 8rem; }
+
+/* Every figure, label and annotation. Nothing set in this face is prose. */
+.kt-m {
+  font-family: var(--kt-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.kt-m.up { text-transform: uppercase; letter-spacing: 0.1em; }
+
+.kt h1 {
+  font-size: 1.45rem; font-weight: 600; line-height: 1.2;
+  margin: 0; letter-spacing: -0.015em; text-wrap: balance;
+}
+.kt h2 {
+  font-size: 1.1rem; font-weight: 600; margin: 0 0 0.2rem; letter-spacing: -0.01em;
+}
+.kt p { margin: 0; max-width: 34rem; }
+
+.kt-mast { padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule-strong); }
+.kt-mast-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.kt-strap { color: var(--muted); font-size: 0.95rem; margin-top: 0.3rem; }
+.kt-who { display: flex; align-items: baseline; gap: 0.6rem; flex-shrink: 0; padding-top: 0.4rem; }
+.kt-who button {
+  font-family: var(--kt-mono), ui-monospace, Menlo, monospace;
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  background: none; border: 0; padding: 0; cursor: pointer; color: var(--faint);
+  border-bottom: 1px solid transparent;
+}
+.kt-who button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.kt-who button:hover { color: var(--ink); }
+
+.kt-said { margin-top: 1rem; color: var(--muted); font-size: 0.95rem; }
+.kt-said b { color: var(--ink); font-weight: 600; }
+.kt-said.flagged { color: var(--accent); }
+
+/* The week. A list with hairline rules, not seven cards in a stack. */
+.kt-weekstart { border-top: 1px solid var(--rule-strong); margin-top: 1.5rem; }
+.kt-figs { display: flex; gap: 0.9rem; margin-top: 0.45rem; }
+.kt-figs i { font-style: normal; color: var(--faint); margin-right: 0.25rem; }
+
+.kt-day { border-bottom: 1px solid var(--rule); padding: 0.9rem 0; }
+.kt-day-main { display: grid; grid-template-columns: 2.6rem 1fr; gap: 0 0.75rem; align-items: baseline; }
+.kt-dayname { padding-top: 0.15rem; }
+.kt-meal { font-size: 1.05rem; font-weight: 600; line-height: 1.35; margin: 0; text-wrap: balance; }
+.kt-cook { color: var(--muted); font-size: 0.9rem; line-height: 1.45; margin-top: 0.1rem; }
+.kt-fig { font-size: 0.86rem; color: var(--ink); }
+.kt-fig.over { color: var(--accent); }
+.kt-side { color: var(--faint); margin-top: 0.35rem; }
+
+.kt-controls { display: flex; gap: 1rem; align-items: baseline; margin-top: 0.5rem; }
+.kt-link {
+  font-family: var(--kt-mono), ui-monospace, Menlo, monospace;
+  font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+  background: none; border: 0; padding: 0; cursor: pointer;
+  color: var(--muted); border-bottom: 1px solid var(--rule-strong);
+}
+.kt-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.kt-link[disabled] { opacity: 0.45; cursor: default; }
+
+.kt-alts { margin: 0.6rem 0 0.1rem 3.35rem; border-top: 1px solid var(--rule); }
+.kt-alt {
+  width: 100%; text-align: left; font: inherit; cursor: pointer;
+  background: none; border: 0; border-bottom: 1px solid var(--rule);
+  padding: 0.55rem 0; display: block; color: var(--ink);
+}
+.kt-alt .kt-figs { margin-top: 0.3rem; }
+.kt-alt:last-child { border-bottom: 0; }
+.kt-alt:hover .kt-altname { border-bottom: 1px solid var(--ink); }
+.kt-altname { font-size: 0.95rem; }
+
+.kt-section { padding: 2.25rem 0 0; }
+.kt-sub { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.1rem; }
+
+/* Three measures, Tufte-style: the number, then a rule whose length is the
+   value and whose tick is the target. No track, no box, no gridlines. */
+.kt-measure { padding: 0.9rem 0; border-bottom: 1px solid var(--rule); }
+.kt-measure-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.kt-measure-v { font-family: var(--kt-mono), ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; font-size: 1.15rem; color: var(--ink); }
+.kt-measure-v.miss { color: var(--accent); }
+.kt-plot { position: relative; height: 0.75rem; margin: 0.5rem 0 0.45rem; }
+.kt-plot-line { position: absolute; top: 0.32rem; left: 0; height: 2px; background: var(--ink); }
+.kt-plot-line.miss { background: var(--accent); }
+.kt-plot-tick { position: absolute; top: 0; width: 1px; height: 0.75rem; background: var(--rule-strong); }
+.kt-plot-tick span { position: absolute; left: 0.35rem; top: -0.1rem; white-space: nowrap; }
+.kt-note { color: var(--muted); font-size: 0.92rem; }
+
+.kt-inline { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; }
+.kt-item { display: inline-flex; align-items: baseline; gap: 0.4rem; }
+.kt-item .t { font: inherit; font-size: 0.95rem; background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); }
+.kt-item.got .t { text-decoration: line-through; color: var(--faint); }
+.kt-item .x { font-family: var(--kt-mono), ui-monospace, Menlo, monospace; font-size: 0.7rem; background: none; border: 0; cursor: pointer; color: var(--faint); padding: 0; }
+.kt-item .x:hover { color: var(--accent); }
+
+.kt-form { display: flex; gap: 0.75rem; align-items: baseline; margin-top: 1rem; }
+.kt-form input {
+  flex: 1; font: inherit; font-size: 0.95rem; padding: 0.35rem 0;
+  color: var(--ink); background: none; border: 0; border-bottom: 1px solid var(--rule-strong);
+}
+.kt-form input::placeholder { color: var(--faint); }
+.kt-form input:focus { outline: none; border-bottom-color: var(--ink); }
+
+.kt-pre {
+  font-family: var(--kt-mono), ui-monospace, Menlo, monospace;
+  font-size: 0.78rem; line-height: 1.7; white-space: pre-wrap;
+  overflow-x: auto; color: var(--ink); margin: 0;
+}
+
+.kt-dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: var(--paper); border-top: 1px solid var(--rule-strong);
+  padding: 0.85rem 1.25rem calc(0.85rem + env(safe-area-inset-bottom));
+}
+.kt-dock-in { max-width: 40rem; margin: 0 auto; display: flex; align-items: center; gap: 1rem; }
+.kt-dock .st { flex: 1; }
+.kt-do {
+  font-family: var(--kt-mono), ui-monospace, Menlo, monospace;
+  font-size: 0.74rem; letter-spacing: 0.09em; text-transform: uppercase;
+  padding: 0.7rem 1.1rem; cursor: pointer;
+  background: var(--ink); border: 1px solid var(--ink); color: var(--paper);
+}
+.kt-do.undo { background: none; color: var(--muted); border-color: var(--rule-strong); }
+.kt-do[disabled] { opacity: 0.4; cursor: default; }
+
+.kt-foot { padding: 2.25rem 0 0; color: var(--faint); font-size: 0.85rem; line-height: 1.6; border-top: 1px solid var(--rule); margin-top: 2.25rem; }
+.kt-foot button { font: inherit; background: none; border: 0; color: var(--muted); border-bottom: 1px solid var(--rule-strong); cursor: pointer; padding: 0; }
+
+.kt :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .kt * { transition: none !important; animation: none !important; } }
+
+
+@media (min-width: 34rem) {
+  .kt h1 { font-size: 1.9rem; }
+  .kt-day-main { grid-template-columns: 3.2rem 1fr; gap: 0 0.9rem; }
+  .kt-alts { margin-left: 4.1rem; }
+}
