@@ -22,7 +22,7 @@ export default function KitchenLoginPage() {
         style={{ display: "flex", flexDirection: "column", gap: "1rem", width: "20rem", padding: "1.5rem" }}
       >
         <h1 style={{ fontSize: "1.6rem", margin: 0 }}>Kitchen</h1>
-        <p className="kt-sub" style={{ margin: 0 }}>
+        <p className="kt-sub2" style={{ margin: 0 }}>
           The week&rsquo;s dinners and the shopping list.
         </p>
         <input
@@ -37,22 +37,22 @@ export default function KitchenLoginPage() {
           style={{
             font: "inherit",
             fontSize: "1rem",
-            padding: "0.65rem 0.85rem",
-            borderRadius: "2px",
-            border: "1px solid var(--line-2)",
-            background: "var(--surface)",
-            color: "var(--ink)",
+            padding: "0.75rem 1rem",
+            borderRadius: "999px",
+            border: "1.5px solid #3a3a35",
+            background: "transparent",
+            color: "var(--cream)",
           }}
         />
-        <label style={{ fontSize: "0.8rem", color: "var(--ink-2)", display: "flex", gap: "0.5rem", alignItems: "center" }}>
+        <label style={{ fontSize: "0.8rem", color: "var(--dim)", display: "flex", gap: "0.5rem", alignItems: "center" }}>
           <input type="checkbox" checked={reveal} onChange={(e) => setReveal(e.target.checked)} />
           Show password
         </label>
-        <button className="kt-btn" type="submit" disabled={pending} style={{ padding: "0.7rem 1rem" }}>
+        <button className="kt-go" type="submit" disabled={pending}>
           {pending ? "Checking" : "Open the kitchen"}
         </button>
         {state.error && (
-          <p style={{ color: "var(--brick)", fontSize: "0.85rem", margin: 0 }}>{state.error}</p>
+          <p style={{ color: "var(--red)", fontSize: "0.85rem", margin: 0 }}>{state.error}</p>
         )}
       </form>
     </div>

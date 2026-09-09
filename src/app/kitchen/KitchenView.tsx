@@ -55,6 +55,25 @@ function withEmphasis(text: string, bold?: string) {
   );
 }
 
+function Figs({ p, s, f, over }: { p: number; s: number; f: number; over: boolean }) {
+  return (
+    <div className="kt-figs">
+      <div className="kt-fig">
+        <span className="v kt-num">{p}</span>
+        <span className="kt-lab">prot</span>
+      </div>
+      <div className={`kt-fig${over ? " over" : ""}`}>
+        <span className="v kt-num">{s}</span>
+        <span className="kt-lab">sat</span>
+      </div>
+      <div className="kt-fig">
+        <span className="v kt-num">{f}</span>
+        <span className="kt-lab">fib</span>
+      </div>
+    </div>
+  );
+}
+
 export default function KitchenView({
   week, initialState, storeReady,
 }: {
@@ -87,249 +106,210 @@ export default function KitchenView({
     () => buildShoppingList(week, picks, state.topups),
     [week, picks, state.topups]
   );
-
-  const measures = week.measures.map((m) => ({
-    ...m,
-    ...evaluateMeasure(m, avg[m.key]),
-  }));
+  const measures = week.measures.map((m) => ({ ...m, ...evaluateMeasure(m, avg[m.key]) }));
 
   return (
     <div className="kt">
       <div className="kt-wrap">
-        <header className="kt-mast">
-          <div className="kt-mast-top">
-            <div>
-              <h1>{week.weekLabel}</h1>
-              <p className="kt-strap">{week.strapline}</p>
-            </div>
-            <div className="kt-who">
-              <span className="kt-m up">You</span>
-              {week.people.map((n) => (
-                <button key={n} type="button" aria-pressed={who === n} onClick={() => whoStore.write(n)}>
-                  {n}
-                </button>
-              ))}
-            </div>
+        <header className="kt-head">
+          <div>
+            <h1>{week.weekLabel}</h1>
+            <p className="kt-sub2">{week.strapline}</p>
           </div>
-
-          {state.approved ? (
-            <p className="kt-said">
-              <b>Approved by {state.approved.by}.</b> {state.approved.at}. The shopping list is at
-              the bottom.
-            </p>
-          ) : (
-            <p className="kt-said">{withEmphasis(week.copy.intro, week.copy.introBoldFrom)}</p>
-          )}
-
-          {!storeReady && (
-            <p className="kt-said flagged">
-              Nothing you tap is being kept yet, because no store is connected. The week shows, the
-              changes do not last.
-            </p>
-          )}
+          <div className="kt-who">
+            {week.people.map((n) => (
+              <button key={n} type="button" aria-pressed={who === n} onClick={() => whoStore.write(n)}>
+                {n}
+              </button>
+            ))}
+          </div>
         </header>
 
-        <div className="kt-weekstart" />
+        <div className="kt-grid">
+          <div className={`kt-card kt-span ${state.approved ? "yellow" : "lilac"}`}>
+            {state.approved ? (
+              <p className="kt-quote">
+                <b>Approved by {state.approved.by}.</b> {state.approved.at}. The shopping list is at
+                the bottom.
+              </p>
+            ) : (
+              <p className="kt-quote">{withEmphasis(week.copy.intro, week.copy.introBoldFrom)}</p>
+            )}
+          </div>
 
-        {week.days.map((day) => {
-          const meal = mealFor(week, day, picks);
-          const changed = picks[day.k] !== day.base;
-          const pool = [...day.alts, ...(changed ? [day.base] : [])].filter((a) => a !== picks[day.k]);
-          return (
-            <div className="kt-day" key={day.k}>
-              <div className="kt-day-main">
-                <span className="kt-m kt-dayname">
-                  {day.d.slice(0, 3)}
+          {!storeReady && (
+            <div className="kt-card red kt-span">
+              <p className="kt-quote">
+                <b>Nothing you tap is being kept yet.</b> No store is connected, so the week shows
+                and the changes do not last.
+              </p>
+            </div>
+          )}
+
+          {week.days.map((day) => {
+            const meal = mealFor(week, day, picks);
+            const changed = picks[day.k] !== day.base;
+            const pool = [...day.alts, ...(changed ? [day.base] : [])].filter((a) => a !== picks[day.k]);
+            const open = openSwap === day.k;
+            return (
+              <article key={day.k} className={`kt-card ${changed ? "lilac" : "cream"}`}>
+                <div className="kt-day-top">
+                  <span className="kt-lab">{day.d}</span>
+                  <span className="kt-lab">{changed ? "swapped" : meal.flag ?? "suits both"}</span>
+                </div>
+                <h3 className="kt-meal">{meal.n}</h3>
+                <p className="kt-cook">{meal.c}</p>
+                <Figs p={meal.p} s={meal.s} f={meal.f} over={meal.s >= week.satFatOutlier} />
+                <p className="kt-adds">
+                  {week.copy.sideLabel} {day.side.toLowerCase()}
+                </p>
+                <div className="kt-btns">
+                  <button
+                    type="button"
+                    className="kt-pill"
+                    aria-expanded={open}
+                    onClick={() => setOpenSwap(open ? null : day.k)}
+                  >
+                    {open ? "Close" : "Swap"}
+                  </button>
                   {changed && (
-                    <>
-                      <br />
-                      swapped
-                    </>
-                  )}
-                </span>
-                <div>
-                  <h3 className="kt-meal">{meal.n}</h3>
-                  <p className="kt-cook">{meal.c}</p>
-                  <span className="kt-figs">
-                    <span className="kt-m kt-fig">
-                      <i>prot</i>
-                      {meal.p}
-                    </span>
-                    <span className={`kt-m kt-fig${meal.s >= week.satFatOutlier ? " over" : ""}`}>
-                      <i>sat</i>
-                      {meal.s}
-                    </span>
-                    <span className="kt-m kt-fig">
-                      <i>fib</i>
-                      {meal.f}
-                    </span>
-                  </span>
-                  <p className="kt-m kt-side">
-                    {week.copy.sideLabel} {day.side.toLowerCase()}
-                  </p>
-                  <div className="kt-controls">
                     <button
                       type="button"
-                      className="kt-link"
-                      aria-expanded={openSwap === day.k}
-                      onClick={() => setOpenSwap(openSwap === day.k ? null : day.k)}
+                      className="kt-pill"
+                      disabled={pending}
+                      onClick={() => {
+                        setOpenSwap(null);
+                        run(() => setPick(week.weekId, day.k, day.base));
+                      }}
                     >
-                      {openSwap === day.k ? "Close" : "Swap"}
+                      Put back
                     </button>
-                    {changed && (
-                      <button
-                        type="button"
-                        className="kt-link"
-                        disabled={pending}
-                        onClick={() => {
-                          setOpenSwap(null);
-                          run(() => setPick(week.weekId, day.k, day.base));
-                        }}
-                      >
-                        Put back
-                      </button>
-                    )}
+                  )}
+                </div>
+                {open && (
+                  <div className="kt-alts">
+                    {pool.map((id) => {
+                      const alt = week.meals[id];
+                      return (
+                        <button
+                          key={id}
+                          type="button"
+                          className="kt-alt"
+                          disabled={pending}
+                          onClick={() => {
+                            setOpenSwap(null);
+                            run(() => setPick(week.weekId, day.k, id));
+                          }}
+                        >
+                          <span className="kt-alt-n">{alt.n}</span>
+                          <span className="kt-alt-f kt-num">
+                            {alt.p} / {alt.s} / {alt.f}
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
-                </div>
-              </div>
+                )}
+              </article>
+            );
+          })}
 
-              {openSwap === day.k && (
-                <div className="kt-alts">
-                  {pool.map((id) => {
-                    const alt = week.meals[id];
-                    return (
-                      <button
-                        key={id}
-                        type="button"
-                        className="kt-alt"
-                        disabled={pending}
-                        onClick={() => {
-                          setOpenSwap(null);
-                          run(() => setPick(week.weekId, day.k, id));
-                        }}
-                      >
-                        <span className="kt-altname">{alt.n}</span>
-                        <span className="kt-figs">
-                          <span className="kt-m kt-fig">
-                            <i>prot</i>
-                            {alt.p}
-                          </span>
-                          <span className={`kt-m kt-fig${alt.s >= week.satFatOutlier ? " over" : ""}`}>
-                            <i>sat</i>
-                            {alt.s}
-                          </span>
-                          <span className="kt-m kt-fig">
-                            <i>fib</i>
-                            {alt.f}
-                          </span>
-                        </span>
-                      </button>
-                    );
-                  })}
+          <section className="kt-card yellow kt-span">
+            <span className="kt-lab">{week.copy.measuresHeading}</span>
+            <p className="kt-cook" style={{ marginBottom: "1.1rem" }}>{week.copy.measuresSub}</p>
+            {measures.map((m) => (
+              <div className="kt-m" key={m.key}>
+                <div className="kt-m-top">
+                  <span className="kt-lab">{m.label}</span>
+                  <span className={`kt-m-v kt-num${m.miss ? " miss" : ""}`}>
+                    {avg[m.key].toFixed(1)} g
+                  </span>
                 </div>
-              )}
-            </div>
-          );
-        })}
-
-        <section className="kt-section">
-          <h2>{week.copy.measuresHeading}</h2>
-          <p className="kt-sub">{week.copy.measuresSub}</p>
-          {measures.map((m) => (
-            <div className="kt-measure" key={m.key}>
-              <div className="kt-measure-top">
-                <span className="kt-m up">{m.label}</span>
-                <span className={`kt-measure-v${m.miss ? " miss" : ""}`}>
-                  {avg[m.key].toFixed(1)} g
-                </span>
-              </div>
-              <div className="kt-plot">
-                <div
-                  className={`kt-plot-line${m.miss ? " miss" : ""}`}
-                  style={{ width: `${m.widthPct}%` }}
-                />
-                <div className="kt-plot-tick" style={{ left: "100%" }}>
-                  <span className="kt-m">{m.tick}</span>
+                <div className="kt-bar">
+                  <div className={`kt-bar-fill${m.miss ? " miss" : ""}`} style={{ width: `${m.widthPct}%` }} />
+                  <div className="kt-bar-tick" />
                 </div>
+                <div className="kt-scale">
+                  <span className="kt-lab">0 g</span>
+                  <span className="kt-lab">{m.tick}</span>
+                </div>
+                <p className="kt-m-note">{m.text}</p>
               </div>
-              <p className="kt-note">{m.text}</p>
-            </div>
-          ))}
-        </section>
-
-        <section className="kt-section">
-          <h2>{week.copy.staplesHeading}</h2>
-          <p className="kt-sub">{week.copy.staplesSub}</p>
-          <div className="kt-inline">
-            {week.rossStaples.map(([item, qty]) => (
-              <span className="kt-item" key={item}>
-                <span className="t">{item}</span>
-                <span className="kt-m">{qty}</span>
-              </span>
             ))}
-          </div>
-        </section>
-
-        <section className="kt-section">
-          <h2>{week.copy.topUpsHeading}</h2>
-          <p className="kt-sub">{week.copy.topUpsSub}</p>
-          <div className="kt-inline">
-            {state.topups.length === 0 && (
-              <span className="kt-m">Nothing yet</span>
-            )}
-            {state.topups.map((t) => (
-              <span className={`kt-item${t.got ? " got" : ""}`} key={t.id}>
-                <button
-                  type="button"
-                  className="t"
-                  disabled={pending}
-                  title={t.got ? "Mark as still needed" : "Mark as already got"}
-                  onClick={() => run(() => toggleTopUp(week.weekId, t.id))}
-                >
-                  {t.text}
-                </button>
-                <button
-                  type="button"
-                  className="x"
-                  aria-label={`Remove ${t.text}`}
-                  disabled={pending}
-                  onClick={() => run(() => removeTopUp(week.weekId, t.id))}
-                >
-                  drop
-                </button>
-              </span>
-            ))}
-          </div>
-          <form
-            className="kt-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const text = draft;
-              if (!text.trim()) return;
-              setDraft("");
-              run(() => addTopUp(week.weekId, text));
-            }}
-          >
-            <input
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              placeholder="coconut milk"
-              aria-label="Add a top-up item"
-              autoComplete="off"
-            />
-            <button className="kt-link" type="submit" disabled={pending}>
-              Add
-            </button>
-          </form>
-        </section>
-
-        {state.approved && (
-          <section className="kt-section">
-            <h2>{week.copy.listHeading}</h2>
-            <p className="kt-sub">{week.copy.listSub}</p>
-            <pre className="kt-pre">{list}</pre>
           </section>
-        )}
+
+          <section className="kt-card olive">
+            <span className="kt-lab">{week.copy.staplesHeading}</span>
+            <p className="kt-cook" style={{ marginBottom: "0.5rem" }}>{week.copy.staplesSub}</p>
+            <div className="kt-rows">
+              {week.rossStaples.map(([item, qty]) => (
+                <div className="kt-row" key={item}>
+                  <span className="name">{item}</span>
+                  <span className="qty">{qty}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="kt-card red">
+            <span className="kt-lab">{week.copy.topUpsHeading}</span>
+            <p className="kt-cook" style={{ marginBottom: "0.5rem" }}>{week.copy.topUpsSub}</p>
+            <div className="kt-rows">
+              {state.topups.length === 0 && <div className="kt-row"><span className="name">Nothing yet</span></div>}
+              {state.topups.map((t) => (
+                <div className={`kt-row${t.got ? " got" : ""}`} key={t.id}>
+                  <button
+                    type="button"
+                    className="name"
+                    disabled={pending}
+                    title={t.got ? "Mark as still needed" : "Mark as already got"}
+                    onClick={() => run(() => toggleTopUp(week.weekId, t.id))}
+                  >
+                    {t.text}
+                  </button>
+                  <button
+                    type="button"
+                    className="drop"
+                    aria-label={`Remove ${t.text}`}
+                    disabled={pending}
+                    onClick={() => run(() => removeTopUp(week.weekId, t.id))}
+                  >
+                    Drop
+                  </button>
+                </div>
+              ))}
+            </div>
+            <form
+              className="kt-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const text = draft;
+                if (!text.trim()) return;
+                setDraft("");
+                run(() => addTopUp(week.weekId, text));
+              }}
+            >
+              <input
+                value={draft}
+                onChange={(e) => setDraft(e.target.value)}
+                placeholder="coconut milk"
+                aria-label="Add a top-up item"
+                autoComplete="off"
+              />
+              <button className="kt-pill solid" type="submit" disabled={pending}>
+                Add
+              </button>
+            </form>
+          </section>
+
+          {state.approved && (
+            <section className="kt-card cream kt-span">
+              <span className="kt-lab">{week.copy.listHeading}</span>
+              <p className="kt-cook">{week.copy.listSub}</p>
+              <pre className="kt-pre">{list}</pre>
+            </section>
+          )}
+        </div>
 
         <footer className="kt-foot">
           {week.copy.footer}{" "}
@@ -341,10 +321,10 @@ export default function KitchenView({
 
       <div className="kt-dock">
         <div className="kt-dock-in">
-          <span className="st kt-m">{pending ? "Saving" : note}</span>
+          <span className="st">{pending ? "Saving" : note}</span>
           <button
             type="button"
-            className={`kt-do${state.approved ? " undo" : ""}`}
+            className={`kt-go${state.approved ? " undo" : ""}`}
             disabled={pending || !storeReady}
             onClick={() =>
               run(() =>

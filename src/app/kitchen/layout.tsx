@@ -1,21 +1,15 @@
-import { Source_Serif_4, JetBrains_Mono } from "next/font/google";
+import { Archivo } from "next/font/google";
 
-// Two faces with clearly different jobs, per AGENTS.md: a serif that reads,
-// and a monospace that holds every figure and annotation. Both are variable,
-// so this is two font files rather than a set of weights. Neither is Inter
-// or Plus Jakarta Sans.
-const serif = Source_Serif_4({
-  variable: "--kt-serif",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const mono = JetBrains_Mono({
-  variable: "--kt-mono",
+// One grotesque doing every job, at very different weights and sizes, which
+// is how the reference works: the same face carries a 44px headline, a 28px
+// figure and a 10px label. Variable, so it is one file rather than a set of
+// weights. Not Inter and not Plus Jakarta Sans.
+const archivo = Archivo({
+  variable: "--kt-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
 export default function KitchenLayout({ children }: { children: React.ReactNode }) {
-  return <div className={`${serif.variable} ${mono.variable}`}>{children}</div>;
+  return <div className={archivo.variable}>{children}</div>;
 }
