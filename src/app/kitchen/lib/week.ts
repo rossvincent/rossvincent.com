@@ -16,12 +16,29 @@ export interface Meal {
   i: Ingredient[];
 }
 
+// Something one person adds to the base dinner at the table, with rough
+// figures so that person's plate can be measured on its own.
+export interface Addition {
+  text: string;
+  p: number;
+  s: number;
+  f: number;
+}
+
 export interface Day {
   d: string; // Monday
   k: string; // mon
   base: string; // meal id proposed for this day
   alts: string[]; // meal ids offered when someone taps swap
-  side: string; // what Ross adds at the table
+  adds?: Record<string, Addition>; // keyed by person name
+}
+
+export interface Profile {
+  name: string;
+  note: string;
+  placeholder?: boolean; // true while the numbers are stand-ins
+  targets: { protein?: number; satFat?: number; fibre?: number };
+  measures: Measure[];
 }
 
 export interface Measure {
@@ -53,6 +70,11 @@ export interface Copy {
   footer: string;
   listOwnSection: string;
   listTail: string;
+  plateLabel?: string; // "{name}'s plate"
+  addsLabel?: string;
+  profileHeading?: string; // "{name} this week"
+  placeholderNote?: string;
+  targetsLabel?: string;
 }
 
 export interface WeekDoc {
@@ -67,9 +89,9 @@ export interface WeekDoc {
   always: Ingredient[];
   aisles: [key: string, title: string][];
   satFatOutlier: number;
-  measures: Measure[];
   copy: Copy;
   people: string[];
+  profiles: Record<string, Profile>;
 }
 
 export interface TopUp {
@@ -125,9 +147,9 @@ export function parseWeek(raw: string): WeekDoc {
     always: parsed.always ?? [],
     aisles: parsed.aisles ?? [],
     satFatOutlier: parsed.satFatOutlier ?? Number.POSITIVE_INFINITY,
-    measures: parsed.measures ?? [],
     copy: parsed.copy ?? ({} as Copy),
     people: parsed.people ?? [],
+    profiles: parsed.profiles ?? {},
   };
 }
 
@@ -181,6 +203,37 @@ export interface ShoppingRows {
 
 // The structured list, rebuilt from whatever is picked right now. The page
 // renders this live, so a swap or a new top-up changes the list at once.
+// One person's plate on one day: the base dinner plus whatever that person
+// adds at the table. Someone with no additions gets the base exactly.
+export function plateFor(
+  week: WeekDoc,
+  day: Day,
+  picks: Record<string, string>,
+  person: string | null
+): { p: number; s: number; f: number } {
+  const m = mealFor(week, day, picks);
+  const a = person ? day.adds?.[person] : undefined;
+  return a ? { p: m.p + a.p, s: m.s + a.s, f: m.f + a.f } : { p: m.p, s: m.s, f: m.f };
+}
+
+export function weekAveragesFor(
+  week: WeekDoc,
+  picks: Record<string, string>,
+  person: string | null
+): { protein: number; satFat: number; fibre: number } {
+  const n = week.days.length || 1;
+  let p = 0,
+    s = 0,
+    f = 0;
+  for (const day of week.days) {
+    const x = plateFor(week, day, picks, person);
+    p += x.p;
+    s += x.s;
+    f += x.f;
+  }
+  return { protein: p / n, satFat: s / n, fibre: f / n };
+}
+
 export function buildShoppingRows(
   week: WeekDoc,
   picks: Record<string, string>,

@@ -6,9 +6,12 @@ import {
   type SaveResult,
 } from "./actions";
 import {
-  buildShoppingList, buildShoppingRows, evaluateMeasure, mealFor, resolvePicks, weekAverages,
-  type KitchenState, type WeekDoc,
+  buildShoppingList, buildShoppingRows, evaluateMeasure, mealFor, plateFor, resolvePicks,
+  weekAveragesFor, type KitchenState, type WeekDoc,
 } from "./lib/week";
+
+const fill = (tpl: string | undefined, name: string, fallback: string) =>
+  (tpl ?? fallback).replace("{name}", name);
 
 const WHO_KEY = "kitchen-who";
 
@@ -101,7 +104,12 @@ export default function KitchenView({
   }
 
   const picks = useMemo(() => resolvePicks(week, state.picks), [week, state.picks]);
-  const avg = useMemo(() => weekAverages(week, picks), [week, picks]);
+
+  // Whose plate the page is showing. The switch at the top sets it; with
+  // nothing chosen yet, the first person in the week file is shown.
+  const viewer = who && week.profiles[who] ? who : week.people[0] ?? null;
+  const profile = viewer ? week.profiles[viewer] : undefined;
+  const avg = useMemo(() => weekAveragesFor(week, picks, viewer), [week, picks, viewer]);
   const rows = useMemo(
     () => buildShoppingRows(week, picks, state.topups),
     [week, picks, state.topups]
@@ -121,7 +129,7 @@ export default function KitchenView({
       // read from. Nothing else useful can be done here.
     }
   }
-  const measures = week.measures.map((m) => ({ ...m, ...evaluateMeasure(m, avg[m.key]) }));
+  const measures = (profile?.measures ?? []).map((m) => ({ ...m, ...evaluateMeasure(m, avg[m.key]) }));
 
   return (
     <div className="kt">
@@ -161,45 +169,96 @@ export default function KitchenView({
             </div>
           )}
 
+          {profile && viewer && (
+            <section className="kt-card yellow kt-span">
+              <div className="kt-prof-head">
+                <h2 className="kt-prof-name">{fill(week.copy.profileHeading, viewer, "{name} this week")}</h2>
+                <span className="kt-lab">{fill(week.copy.plateLabel, viewer, "{name}'s plate")}</span>
+              </div>
+              <p className="kt-cook">{profile.note}</p>
+              <div className="kt-targets">
+                {profile.targets.protein !== undefined && (
+                  <div className="kt-fig"><span className="v kt-num">{profile.targets.protein}</span><span className="kt-lab">protein a day</span></div>
+                )}
+                {profile.targets.satFat !== undefined && (
+                  <div className="kt-fig"><span className="v kt-num">{profile.targets.satFat}</span><span className="kt-lab">sat fat cap</span></div>
+                )}
+                {profile.targets.fibre !== undefined && (
+                  <div className="kt-fig"><span className="v kt-num">{profile.targets.fibre}</span><span className="kt-lab">fibre a day</span></div>
+                )}
+              </div>
+              {profile.placeholder && week.copy.placeholderNote && (
+                <p className="kt-stand">{week.copy.placeholderNote}</p>
+              )}
+              <div style={{ marginTop: "0.9rem" }}>
+                {measures.map((m) => (
+                  <div className="kt-m" key={m.key}>
+                    <div className="kt-m-top">
+                      <span className="kt-lab">{m.label}</span>
+                      <span className={`kt-m-v kt-num${m.miss ? " miss" : ""}`}>{avg[m.key].toFixed(1)} g</span>
+                    </div>
+                    <div className="kt-bar">
+                      <div className={`kt-bar-fill${m.miss ? " miss" : ""}`} style={{ width: `${m.widthPct}%` }} />
+                      <div className="kt-bar-tick" />
+                    </div>
+                    <div className="kt-scale">
+                      <span className="kt-lab">0 g</span>
+                      <span className="kt-lab">{m.tick}</span>
+                    </div>
+                    <p className="kt-m-note">{m.text}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
           {week.days.map((day) => {
             const meal = mealFor(week, day, picks);
+            const plate = plateFor(week, day, picks, viewer);
+            const add = viewer ? day.adds?.[viewer] : undefined;
             const changed = picks[day.k] !== day.base;
             const pool = [...day.alts, ...(changed ? [day.base] : [])].filter((a) => a !== picks[day.k]);
             const open = openSwap === day.k;
             return (
-              <article key={day.k} className={`kt-card ${changed ? "lilac" : "cream"}`}>
+              <article key={day.k} className={`kt-card kt-span ${changed ? "lilac" : "cream"}`}>
                 <div className="kt-day-top">
                   <span className="kt-lab">{day.d}</span>
                   <span className="kt-lab">{changed ? "swapped" : meal.flag ?? "suits both"}</span>
                 </div>
-                <h3 className="kt-meal">{meal.n}</h3>
-                <p className="kt-cook">{meal.c}</p>
-                <Figs p={meal.p} s={meal.s} f={meal.f} over={meal.s >= week.satFatOutlier} />
-                <p className="kt-adds">
-                  {week.copy.sideLabel} {day.side.toLowerCase()}
-                </p>
-                <div className="kt-btns">
-                  <button
-                    type="button"
-                    className="kt-pill"
-                    aria-expanded={open}
-                    onClick={() => setOpenSwap(open ? null : day.k)}
-                  >
-                    {open ? "Close" : "Swap"}
-                  </button>
-                  {changed && (
+                <div className="kt-day-grid">
+                  <div>
+                    <h3 className="kt-meal">{meal.n}</h3>
+                    <p className="kt-cook">{meal.c}</p>
+                    {add && (
+                      <p className="kt-adds">
+                        {viewer} {week.copy.addsLabel ?? "adds"} {add.text.toLowerCase()}
+                      </p>
+                    )}
+                  </div>
+                  <Figs p={plate.p} s={plate.s} f={plate.f} over={meal.s >= week.satFatOutlier} />
+                  <div className="kt-btns">
                     <button
                       type="button"
                       className="kt-pill"
-                      disabled={pending}
-                      onClick={() => {
-                        setOpenSwap(null);
-                        run(() => setPick(week.weekId, day.k, day.base));
-                      }}
+                      aria-expanded={open}
+                      onClick={() => setOpenSwap(open ? null : day.k)}
                     >
-                      Put back
+                      {open ? "Close" : "Swap"}
                     </button>
-                  )}
+                    {changed && (
+                      <button
+                        type="button"
+                        className="kt-pill"
+                        disabled={pending}
+                        onClick={() => {
+                          setOpenSwap(null);
+                          run(() => setPick(week.weekId, day.k, day.base));
+                        }}
+                      >
+                        Put back
+                      </button>
+                    )}
+                  </div>
                 </div>
                 {open && (
                   <div className="kt-alts">
@@ -228,30 +287,6 @@ export default function KitchenView({
               </article>
             );
           })}
-
-          <section className="kt-card yellow kt-span">
-            <span className="kt-lab">{week.copy.measuresHeading}</span>
-            <p className="kt-cook" style={{ marginBottom: "1.1rem" }}>{week.copy.measuresSub}</p>
-            {measures.map((m) => (
-              <div className="kt-m" key={m.key}>
-                <div className="kt-m-top">
-                  <span className="kt-lab">{m.label}</span>
-                  <span className={`kt-m-v kt-num${m.miss ? " miss" : ""}`}>
-                    {avg[m.key].toFixed(1)} g
-                  </span>
-                </div>
-                <div className="kt-bar">
-                  <div className={`kt-bar-fill${m.miss ? " miss" : ""}`} style={{ width: `${m.widthPct}%` }} />
-                  <div className="kt-bar-tick" />
-                </div>
-                <div className="kt-scale">
-                  <span className="kt-lab">0 g</span>
-                  <span className="kt-lab">{m.tick}</span>
-                </div>
-                <p className="kt-m-note">{m.text}</p>
-              </div>
-            ))}
-          </section>
 
           <section className="kt-card olive">
             <span className="kt-lab">{week.copy.staplesHeading}</span>

@@ -8,6 +8,8 @@ import {
   buildShoppingRows,
   mergeTopUps,
   evaluateMeasure,
+  plateFor,
+  weekAveragesFor,
   type Measure,
   type WeekDoc,
 } from "./week.ts";
@@ -23,15 +25,15 @@ const WEEK: WeekDoc = {
     lamb: { n: "Lamb", c: "", p: 44, s: 11, f: 8, i: [["Lamb steaks", "400 g", "meat"], ["Lemons", "1", "fruit"]] },
   },
   days: [
-    { d: "Monday", k: "mon", base: "cod", alts: ["lamb"], side: "Rice" },
-    { d: "Tuesday", k: "tue", base: "lamb", alts: ["cod"], side: "Lentils" },
+    { d: "Monday", k: "mon", base: "cod", alts: ["lamb"], adds: { A: { text: "Rice", p: 4, s: 0, f: 3 } } },
+    { d: "Tuesday", k: "tue", base: "lamb", alts: ["cod"], adds: { A: { text: "Lentils", p: 12, s: 0, f: 8 } } },
   ],
   rossStaples: [["Brown rice", "1 bag", "cupboard"]],
   always: [["Olive oil", "1 bottle", "cupboard"]],
   aisles: [["fish", "Fish"], ["meat", "Meat and poultry"], ["fruit", "Fruit"], ["cupboard", "Cupboard"]],
   satFatOutlier: 8,
-  measures: [],
   people: ["A", "B"],
+  profiles: {},
   copy: {
     intro: "", sideLabel: "Adds", measuresHeading: "", measuresSub: "",
     staplesHeading: "", staplesSub: "", topUpsHeading: "", topUpsSub: "",
@@ -178,4 +180,30 @@ test("buildShoppingRows: a swap changes the rows, so the list is live", () => {
 test("buildShoppingRows: empty aisles are dropped rather than shown with no rows", () => {
   const r = buildShoppingRows(WEEK, { mon: "cod", tue: "cod" }, []);
   assert.ok(!r.aisles.some((a) => a.key === "meat"));
+});
+
+
+test("plateFor: a person with additions gets the base dinner plus their extras", () => {
+  const a = plateFor(WEEK, WEEK.days[0], { mon: "cod", tue: "lamb" }, "A");
+  assert.deepEqual(a, { p: 40, s: 1, f: 12 });
+});
+
+test("plateFor: a person with no additions gets the base dinner exactly", () => {
+  const b = plateFor(WEEK, WEEK.days[0], { mon: "cod", tue: "lamb" }, "B");
+  assert.deepEqual(b, { p: 36, s: 1, f: 9 });
+});
+
+test("weekAveragesFor: two people looking at the same dinners get different numbers", () => {
+  const picks = { mon: "cod", tue: "lamb" };
+  const a = weekAveragesFor(WEEK, picks, "A");
+  const b = weekAveragesFor(WEEK, picks, "B");
+  assert.ok(a.protein > b.protein, "the person adding lentils gets more protein");
+  assert.ok(a.fibre > b.fibre, "and more fibre");
+  assert.equal(b.satFat, 6, "the base is unchanged for the other person");
+});
+
+test("weekAveragesFor: a swap moves both people's numbers at once", () => {
+  const before = weekAveragesFor(WEEK, { mon: "cod", tue: "lamb" }, "A");
+  const after = weekAveragesFor(WEEK, { mon: "cod", tue: "cod" }, "A");
+  assert.ok(after.satFat < before.satFat);
 });

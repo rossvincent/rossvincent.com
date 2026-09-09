@@ -67,8 +67,15 @@
 .kt-quote { font-size: 1.15rem; line-height: 1.28; font-weight: 500; margin: 0; letter-spacing: -0.015em; }
 .kt-quote b { font-weight: 700; }
 
-/* A dinner. */
+/* A dinner: one full-width row per day, running down the middle. On a
+   phone it stacks; with room it lays out as text, figures, buttons. */
 .kt-day-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; }
+.kt-day-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem 1.5rem; align-items: start; }
+@media (min-width: 40rem) {
+  .kt-day-grid { grid-template-columns: 1fr auto auto; align-items: center; }
+  .kt-day-grid .kt-figs { margin-top: 0; }
+  .kt-day-grid .kt-btns { margin-top: 0; flex-wrap: nowrap; }
+}
 .kt-meal { font-size: 1.3rem; font-weight: 700; line-height: 1.12; letter-spacing: -0.025em; margin: 0.5rem 0 0; text-wrap: balance; }
 .kt-cook { font-size: 0.85rem; line-height: 1.35; margin: 0.4rem 0 0; opacity: 0.66; }
 .kt-adds { font-size: 0.8rem; margin: 0.55rem 0 0; opacity: 0.66; }
@@ -100,6 +107,12 @@
 .kt-alt-n { font-size: 0.95rem; font-weight: 600; letter-spacing: -0.01em; }
 .kt-alt:hover .kt-alt-n { text-decoration: underline; text-underline-offset: 3px; }
 .kt-alt-f { font-size: 0.8rem; font-weight: 600; opacity: 0.62; white-space: nowrap; }
+
+/* Whose plate: the profile block that flips with the Ross / Emily switch. */
+.kt-prof-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.kt-prof-name { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; margin: 0; }
+.kt-targets { display: flex; gap: 1.4rem; margin: 0.9rem 0 0.2rem; }
+.kt-stand { font-size: 0.85rem; font-weight: 600; margin: 0.75rem 0 0; padding: 0.55rem 0.75rem; border-radius: 0.6rem; background: rgba(13,13,13,0.1); }
 
 /* Measures. Big figure, black bar, tick at the rule it sits under. */
 .kt-m + .kt-m { margin-top: 1.15rem; padding-top: 1.15rem; border-top: 1.5px solid rgba(13,13,13,0.22); }
