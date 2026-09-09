@@ -8,7 +8,13 @@ const OWNER = "rossvincent";
 const REPO = "ClaudeOS";
 const BRANCH = "main";
 
-export async function fetchRepoFile(path: string): Promise<string> {
+// `fresh: true` skips the politeness cache below. The kitchen page uses it:
+// the week file changes rarely but when it does, two people are looking at
+// the page that minute, and a stale copy is worse than one extra request.
+export async function fetchRepoFile(
+  path: string,
+  opts: { fresh?: boolean } = {}
+): Promise<string> {
   const token = process.env.GITHUB_TOKEN;
   if (!token) {
     throw new Error("GITHUB_TOKEN is not set");
@@ -25,7 +31,7 @@ export async function fetchRepoFile(path: string): Promise<string> {
     // reuses this for up to a minute rather than hitting GitHub again.
     // cookies() elsewhere in the request already forces per-request
     // rendering, so the page as a whole is still genuinely live.
-    next: { revalidate: 60 },
+    ...(opts.fresh ? { cache: "no-store" as const } : { next: { revalidate: 60 } }),
   });
 
   if (!res.ok) {

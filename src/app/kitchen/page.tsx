@@ -21,7 +21,7 @@ export default async function KitchenPage() {
 
   let week;
   try {
-    week = parseWeek(await fetchRepoFile(WEEK_PATH));
+    week = parseWeek(await fetchRepoFile(WEEK_PATH, { fresh: true }));
   } catch (e) {
     // A broken or missing week file is worth saying plainly rather than
     // showing an empty page in a kitchen with the shopping still to do.
