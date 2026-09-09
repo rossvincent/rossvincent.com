@@ -6,7 +6,7 @@ import {
   type SaveResult,
 } from "./actions";
 import {
-  buildShoppingList, evaluateMeasure, mealFor, resolvePicks, weekAverages,
+  buildShoppingList, buildShoppingRows, evaluateMeasure, mealFor, resolvePicks, weekAverages,
   type KitchenState, type WeekDoc,
 } from "./lib/week";
 
@@ -102,10 +102,25 @@ export default function KitchenView({
 
   const picks = useMemo(() => resolvePicks(week, state.picks), [week, state.picks]);
   const avg = useMemo(() => weekAverages(week, picks), [week, picks]);
-  const list = useMemo(
+  const rows = useMemo(
+    () => buildShoppingRows(week, picks, state.topups),
+    [week, picks, state.topups]
+  );
+  const listText = useMemo(
     () => buildShoppingList(week, picks, state.topups),
     [week, picks, state.topups]
   );
+  const [copied, setCopied] = useState(false);
+  async function copyList() {
+    try {
+      await navigator.clipboard.writeText(listText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      // No clipboard access in this context: leave the rows on screen to
+      // read from. Nothing else useful can be done here.
+    }
+  }
   const measures = week.measures.map((m) => ({ ...m, ...evaluateMeasure(m, avg[m.key]) }));
 
   return (
@@ -302,13 +317,57 @@ export default function KitchenView({
             </form>
           </section>
 
-          {state.approved && (
-            <section className="kt-card cream kt-span">
+          <section className="kt-card cream kt-span">
+            <div className="kt-day-top">
               <span className="kt-lab">{week.copy.listHeading}</span>
-              <p className="kt-cook">{week.copy.listSub}</p>
-              <pre className="kt-pre">{list}</pre>
-            </section>
-          )}
+              <span className="kt-lab kt-num">{rows.count} items</span>
+            </div>
+            <p className="kt-cook">{week.copy.listSub}</p>
+            {rows.aisles.map((a) => (
+              <div className="kt-aisle" key={a.key}>
+                <span className="kt-lab">{a.title}</span>
+                <div className="kt-rows">
+                  {a.rows.map((r) => (
+                    <div className="kt-row" key={r.item}>
+                      <span className="name">{r.item}</span>
+                      <span className="qty">{r.qty}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+            {rows.own.length > 0 && (
+              <div className="kt-aisle">
+                <span className="kt-lab">{week.copy.listOwnSection}</span>
+                <div className="kt-rows">
+                  {rows.own.map((r) => (
+                    <div className="kt-row" key={r.item}>
+                      <span className="name">{r.item}</span>
+                      <span className="qty">{r.qty}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {rows.topups.length > 0 && (
+              <div className="kt-aisle">
+                <span className="kt-lab">Top-ups from the kitchen</span>
+                <div className="kt-rows">
+                  {rows.topups.map((tp) => (
+                    <div className="kt-row" key={tp.id}>
+                      <span className="name">{tp.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {week.copy.listTail && <p className="kt-cook" style={{ marginTop: "0.9rem" }}>{week.copy.listTail}</p>}
+            <div className="kt-btns">
+              <button type="button" className="kt-pill solid" onClick={copyList}>
+                {copied ? "Copied" : "Copy the list"}
+              </button>
+            </div>
+          </section>
         </div>
 
         <footer className="kt-foot">

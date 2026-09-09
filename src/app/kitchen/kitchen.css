@@ -136,6 +136,9 @@
 .kt-form input::placeholder { color: currentColor; opacity: 0.5; }
 .kt-form input:focus { outline: none; background: rgba(13,13,13,0.08); }
 
+.kt-aisle { margin-top: 1.05rem; }
+.kt-aisle > .kt-lab { display: block; margin-bottom: 0.15rem; }
+
 .kt-pre {
   font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
   font-size: 0.78rem; line-height: 1.7; white-space: pre-wrap; overflow-x: auto; margin: 0.8rem 0 0;

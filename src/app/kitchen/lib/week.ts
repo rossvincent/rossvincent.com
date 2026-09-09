@@ -167,11 +167,25 @@ export function weekAverages(
   return { protein: p / n, satFat: s / n, fibre: f / n };
 }
 
-export function buildShoppingList(
+export interface ShoppingRow {
+  item: string;
+  qty: string;
+}
+
+export interface ShoppingRows {
+  aisles: { key: string; title: string; rows: ShoppingRow[] }[];
+  own: ShoppingRow[];
+  topups: TopUp[];
+  count: number;
+}
+
+// The structured list, rebuilt from whatever is picked right now. The page
+// renders this live, so a swap or a new top-up changes the list at once.
+export function buildShoppingRows(
   week: WeekDoc,
   picks: Record<string, string>,
   topups: TopUp[]
-): string {
+): ShoppingRows {
   const bag = new Map<string, { item: string; aisle: string; qs: string[] }>();
   const add = ([item, qty, aisle]: Ingredient) => {
     const key = `${aisle}|${item}`;
@@ -179,27 +193,43 @@ export function buildShoppingList(
     if (row) row.qs.push(qty);
     else bag.set(key, { item, aisle, qs: [qty] });
   };
-
   for (const day of week.days) mealFor(week, day, picks).i.forEach(add);
   week.always.forEach(add);
 
-  let out = `SHOPPING LIST, ${week.weekLabel.toLowerCase()}\n`;
-  for (const [key, title] of week.aisles) {
-    const rows = [...bag.values()].filter((r) => r.aisle === key);
-    if (!rows.length) continue;
-    out += `\n${title.toUpperCase()}\n`;
-    for (const r of rows) {
-      out += `  ${r.item}  ${r.qs.length > 1 ? r.qs.join(" + ") : r.qs[0]}\n`;
-    }
-  }
-  if (week.rossStaples.length) {
-    out += `\n${(week.copy.listOwnSection ?? "Also").toUpperCase()}\n`;
-    for (const [item, qty] of week.rossStaples) out += `  ${item}  ${qty}\n`;
-  }
+  const aisles = week.aisles
+    .map(([key, title]) => ({
+      key,
+      title,
+      rows: [...bag.values()]
+        .filter((r) => r.aisle === key)
+        .map((r) => ({ item: r.item, qty: r.qs.length > 1 ? r.qs.join(" + ") : r.qs[0] })),
+    }))
+    .filter((a) => a.rows.length > 0);
+  const own = week.rossStaples.map(([item, qty]) => ({ item, qty }));
   const needed = topups.filter((t) => !t.got);
-  if (needed.length) {
+  const count = aisles.reduce((n, a) => n + a.rows.length, 0) + own.length + needed.length;
+  return { aisles, own, topups: needed, count };
+}
+
+// The same list as plain text, for copying into a supermarket search box.
+export function buildShoppingList(
+  week: WeekDoc,
+  picks: Record<string, string>,
+  topups: TopUp[]
+): string {
+  const r = buildShoppingRows(week, picks, topups);
+  let out = `SHOPPING LIST, ${week.weekLabel.toLowerCase()}\n`;
+  for (const a of r.aisles) {
+    out += `\n${a.title.toUpperCase()}\n`;
+    for (const row of a.rows) out += `  ${row.item}  ${row.qty}\n`;
+  }
+  if (r.own.length) {
+    out += `\n${(week.copy.listOwnSection ?? "Also").toUpperCase()}\n`;
+    for (const row of r.own) out += `  ${row.item}  ${row.qty}\n`;
+  }
+  if (r.topups.length) {
     out += `\nTOP-UPS FROM THE KITCHEN\n`;
-    for (const t of needed) out += `  ${t.text}\n`;
+    for (const t of r.topups) out += `  ${t.text}\n`;
   }
   if (week.copy.listTail) out += `\n${week.copy.listTail}\n`;
   return out;

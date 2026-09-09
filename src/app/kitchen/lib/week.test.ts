@@ -5,6 +5,7 @@ import {
   resolvePicks,
   weekAverages,
   buildShoppingList,
+  buildShoppingRows,
   mergeTopUps,
   evaluateMeasure,
   type Measure,
@@ -151,4 +152,30 @@ test("evaluateMeasure: the plot never runs past its own scale or vanishes", () =
 test("evaluateMeasure: {value0} rounds to whole grams for the protein line", () => {
   const m: Measure = { ...FIB, ok: "Averages {value0} g.", missBelow: undefined };
   assert.equal(evaluateMeasure(m, 40.6).text, "Averages 41 g.");
+});
+
+
+test("buildShoppingRows: counts every line a person would have to pick up", () => {
+  const r = buildShoppingRows(WEEK, { mon: "cod", tue: "lamb" }, [
+    { id: "a", text: "coconut milk", got: false },
+    { id: "b", text: "bin bags", got: true },
+  ]);
+  // cod fillets, lamb steaks, lemons (merged), olive oil = 4 aisle rows;
+  // brown rice = 1 own row; coconut milk = 1 top-up still needed.
+  assert.equal(r.count, 6);
+  assert.equal(r.topups.length, 1);
+});
+
+test("buildShoppingRows: a swap changes the rows, so the list is live", () => {
+  const before = buildShoppingRows(WEEK, { mon: "cod", tue: "lamb" }, []);
+  const after = buildShoppingRows(WEEK, { mon: "cod", tue: "cod" }, []);
+  const items = (r: ReturnType<typeof buildShoppingRows>) =>
+    r.aisles.flatMap((a) => a.rows.map((x) => x.item));
+  assert.ok(items(before).includes("Lamb steaks"));
+  assert.ok(!items(after).includes("Lamb steaks"));
+});
+
+test("buildShoppingRows: empty aisles are dropped rather than shown with no rows", () => {
+  const r = buildShoppingRows(WEEK, { mon: "cod", tue: "cod" }, []);
+  assert.ok(!r.aisles.some((a) => a.key === "meat"));
 });
