@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Google Apps Script projects under tools/ run on a different runtime and carry their own tests.
+    "tools/**",
   ]),
 ]);
 

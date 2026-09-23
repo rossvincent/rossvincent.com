@@ -1,0 +1,3 @@
+# clasp login credentials never belong in git (clasp keeps them in ~/.clasprc.json, but a local copy can appear)
+.clasprc.json
+node_modules/

@@ -1,0 +1,13 @@
+{
+  "name": "booking-sync",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Google Apps Script that mirrors Airbnb and Booking.com reservations into one private Google Calendar",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "push": "clasp push"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
