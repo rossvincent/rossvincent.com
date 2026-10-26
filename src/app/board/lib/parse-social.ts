@@ -1,4 +1,4 @@
-// Parses ~/ClaudeOS/SOCIAL.md: the "Not yet cross-posted" gap and the
+// Parses ~/MyOS/SOCIAL.md: the "Not yet cross-posted" gap and the
 // newest few posts. Deliberately reads SOCIAL.md rather than the raw
 // social-log.json, since SOCIAL.md already computes the cross-platform
 // cross-post-gap logic that scripts/social.py owns; reimplementing that

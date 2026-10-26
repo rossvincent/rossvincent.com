@@ -1,4 +1,4 @@
-// Parses ~/ClaudeOS/memory/decisions-log.md: newest N rows only. The file
+// Parses ~/MyOS/memory/decisions-log.md: newest N rows only. The file
 // is already newest-first, so "newest N" is just "first N data rows" -
 // no date parsing or sorting needed.
 

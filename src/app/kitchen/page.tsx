@@ -31,7 +31,7 @@ export default async function KitchenPage() {
           <h1>No week to show</h1>
           <p className="kt-sub" style={{ marginTop: "1rem" }}>
             The meal plan file could not be read, so there is nothing to cook from here yet. It
-            lives in the ClaudeOS repo at {WEEK_PATH}.
+            lives in the MyOS repo at {WEEK_PATH}.
           </p>
           <p className="kt-hint">{e instanceof Error ? e.message : "Unknown error"}</p>
         </div>

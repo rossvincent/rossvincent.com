@@ -12,7 +12,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # House rules for this site
 
-*Added 8 September 2026 after the redesign research. Reasoning and sources: `ClaudeOS/projects/rossvincent-com/redesign-research-2026-09-08.md`.*
+*Added 8 September 2026 after the redesign research. Reasoning and sources: `MyOS/projects/rossvincent-com/redesign-research-2026-09-08.md`.*
 
 ## What this site is for
 
@@ -61,7 +61,7 @@ Tufte, not dashboard trend articles. No gridlines, no boxes, no legends. Label e
 
 ## The board page and privacy
 
-The board reads five files from the private `ClaudeOS` repo: `ACTIVE.md`, `consulting/pipeline.md`, `memory/decisions-log.md`, `SOCIAL.md`, `CHANGELOG.md`. **These contain client names, Ross's financial position, personal family matters, and the current state of the sales pipeline.**
+The board reads five files from the private `MyOS` repo: `ACTIVE.md`, `consulting/pipeline.md`, `memory/decisions-log.md`, `SOCIAL.md`, `CHANGELOG.md`. **These contain client names, Ross's financial position, personal family matters, and the current state of the sales pipeline.**
 
 Any public view of the board is generated from an explicit per-row publish flag in the source file. Never from a second copy of the data, which would drift and eventually leak. Publish the structure, withhold the contents. When in doubt, a row is private.
 

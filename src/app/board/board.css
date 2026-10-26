@@ -1,6 +1,6 @@
 /* Scoped to .board-page so none of this leaks into the marketing site,
    and none of Tailwind's utility classes leak into here. Palette carried
-   over from the original board/index.html in ~/ClaudeOS. */
+   over from the original board/index.html in ~/MyOS. */
 
 .board-page {
   --ground: #0d1113;

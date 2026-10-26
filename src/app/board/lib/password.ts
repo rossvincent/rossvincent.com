@@ -5,7 +5,7 @@
 // browser - already comes from that boundary.
 import { timingSafeEqual } from "node:crypto";
 
-// Ported from ~/ClaudeOS/projects/soul-synthesis/site/api/_lib.js's
+// Ported from ~/MyOS/projects/soul-synthesis/site/api/_lib.js's
 // timingSafeEqualStr: a length mismatch is compared against itself first so
 // a wrong-length guess takes the same time as a right-length one.
 export function timingSafeEqualStr(a: string, b: string): boolean {

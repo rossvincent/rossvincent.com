@@ -1,5 +1,5 @@
 // Markdown-cell and table-extraction primitives, ported from
-// ~/ClaudeOS/scripts/board-build.py so the two stay behaviourally identical.
+// ~/MyOS/scripts/board-build.py so the two stay behaviourally identical.
 // Keep this file in sync with that script's clean()/rows_between()/etc if
 // either one changes its parsing rules.
 

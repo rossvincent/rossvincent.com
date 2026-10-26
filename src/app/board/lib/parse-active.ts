@@ -1,4 +1,4 @@
-// Faithful TypeScript port of ~/ClaudeOS/scripts/board-build.py's ACTIVE.md
+// Faithful TypeScript port of ~/MyOS/scripts/board-build.py's ACTIVE.md
 // parsing (parse_gate, parse_tasks, parse_blocked, parse_when/parse_dates).
 // Keep behaviourally identical to that script; it is the tested reference.
 

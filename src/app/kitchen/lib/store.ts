@@ -3,7 +3,7 @@ import { get, put } from "@vercel/blob";
 import { emptyState, mergeTopUps, type KitchenState } from "./week.ts";
 
 // Where the taps live. The week itself (which dinners are proposed, what is
-// in each one) comes from the ClaudeOS repo, exactly the way the board reads
+// in each one) comes from the MyOS repo, exactly the way the board reads
 // ACTIVE.md. Only what a human changes on the page lives here.
 //
 // The store is private, so the JSON is never reachable by URL: reading it

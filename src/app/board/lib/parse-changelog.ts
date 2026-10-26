@@ -1,6 +1,6 @@
-// Parses ~/ClaudeOS/CHANGELOG.md: the newest few dated ## entries, each
+// Parses ~/MyOS/CHANGELOG.md: the newest few dated ## entries, each
 // reduced to its heading plus a one-line summary (the entries themselves
-// run to full paragraphs, which belong in ClaudeOS, not on this page).
+// run to full paragraphs, which belong in MyOS, not on this page).
 
 import { clean, truncate } from "./md";
 

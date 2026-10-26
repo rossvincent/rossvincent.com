@@ -8,20 +8,20 @@ import { parseActive } from "./parse-active.ts";
 
 // Faithfulness check: the whole point of this port is that it behaves like
 // scripts/board-build.py, which is the tested, in-production reference.
-// This reads the real current ACTIVE.md from the sibling ClaudeOS repo and
+// This reads the real current ACTIVE.md from the sibling MyOS repo and
 // compares this module's output against that script's own --print output.
 // Skips itself gracefully if that repo or python3 isn't available (e.g. a
 // future CI environment), rather than failing on an environment gap.
 
-const CLAUDEOS = path.join(homedir(), "ClaudeOS");
-const ACTIVE_PATH = path.join(CLAUDEOS, "ACTIVE.md");
-const SCRIPT_PATH = path.join(CLAUDEOS, "scripts", "board-build.py");
+const MYOS = path.join(homedir(), "MyOS");
+const ACTIVE_PATH = path.join(MYOS, "ACTIVE.md");
+const SCRIPT_PATH = path.join(MYOS, "scripts", "board-build.py");
 
 const canRun = existsSync(ACTIVE_PATH) && existsSync(SCRIPT_PATH);
 
 test(
   "parseActive matches scripts/board-build.py's real output",
-  { skip: !canRun && "ClaudeOS repo not found alongside this one" },
+  { skip: !canRun && "MyOS repo not found alongside this one" },
   () => {
     const text = readFileSync(ACTIVE_PATH, "utf8");
     const ours = parseActive(text, new Date());

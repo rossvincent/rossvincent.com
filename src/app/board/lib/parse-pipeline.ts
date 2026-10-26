@@ -1,4 +1,4 @@
-// Parses ~/ClaudeOS/consulting/pipeline.md: Active engagements, Closed
+// Parses ~/MyOS/consulting/pipeline.md: Active engagements, Closed
 // engagements, and Prospects. Warm routes and pricing are left out for v1;
 // this is the operational slice that changes week to week.
 

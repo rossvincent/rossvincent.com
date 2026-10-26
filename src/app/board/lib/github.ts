@@ -1,11 +1,11 @@
 import "server-only";
 
-// Read-only access to the private rossvincent/ClaudeOS repo, via a
+// Read-only access to the private rossvincent/MyOS repo, via a
 // fine-grained GitHub PAT scoped to only that repo's contents. Never expose
 // GITHUB_TOKEN, or this module, to a client component.
 
 const OWNER = "rossvincent";
-const REPO = "ClaudeOS";
+const REPO = "MyOS";
 const BRANCH = "main";
 
 // `fresh: true` skips the politeness cache below. The kitchen page uses it:

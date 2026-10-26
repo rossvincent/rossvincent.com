@@ -1,7 +1,7 @@
 import "server-only";
 import { headers } from "next/headers";
 
-// Ported from ~/ClaudeOS/projects/soul-synthesis/site/api/_lib.js. In-memory
+// Ported from ~/MyOS/projects/soul-synthesis/site/api/_lib.js. In-memory
 // sliding-window limiter. Serverless honesty: state lives per warm instance,
 // so this is a speed bump, not a wall - a real second layer, if ever needed,
 // would be a Vercel Firewall rate rule on /board/login.

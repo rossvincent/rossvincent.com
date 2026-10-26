@@ -401,7 +401,7 @@ export default function BoardView({ data }: { data: BoardData }) {
           <TaskRows items={nextRows} zoneId="next" open={open} onToggle={toggleOpen} />
         </Zone>
 
-        <Zone id="changelog" title="System changelog" note="How ClaudeOS itself has changed lately.">
+        <Zone id="changelog" title="System changelog" note="How MyOS itself has changed lately.">
           <ul className="rows">
             {changelogRows.map((c, i) => (
               <li className="row" key={i}>
@@ -419,7 +419,7 @@ export default function BoardView({ data }: { data: BoardData }) {
         {totalShown === 0 && <p className="empty">Nothing matches that.</p>}
 
         <p className="colophon">
-          Read live from rossvincent/ClaudeOS on every visit; there is no
+          Read live from rossvincent/MyOS on every visit; there is no
           stale copy sitting behind this page. Ticks and filters are a local
           scratch layer in this browser - they never change the source
           files, and a tick clears itself if the wording underneath it
